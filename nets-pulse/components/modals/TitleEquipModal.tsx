@@ -13,7 +13,6 @@ export default function TitleEquipModal({ equipped, onEquip, onClose }: TitleEqu
   return (
     <div className="absolute inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm animate-fade-in" style={{ borderRadius: 40 }}>
       <div className="w-full animate-slide-up" style={{ borderRadius: "32px 32px 40px 40px", background: "#16161e", border: "1px solid rgba(255,255,255,0.08)", paddingBottom: 32 }}>
-        {/* Handle */}
         <div className="flex justify-center pt-3 pb-4">
           <div className="w-10 h-1 rounded-full bg-white/20" />
         </div>
@@ -39,32 +38,21 @@ export default function TitleEquipModal({ equipped, onEquip, onClose }: TitleEqu
                   style={{
                     background: isEquipped
                       ? "linear-gradient(135deg, rgba(124,58,237,0.3), rgba(16,185,129,0.15))"
-                      : t.unlocked
-                      ? "rgba(255,255,255,0.04)"
-                      : "rgba(255,255,255,0.02)",
+                      : t.unlocked ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.02)",
                     border: isEquipped
                       ? "1px solid rgba(124,58,237,0.6)"
-                      : t.unlocked
-                      ? "1px solid rgba(255,255,255,0.08)"
-                      : "1px solid rgba(255,255,255,0.03)",
+                      : t.unlocked ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(255,255,255,0.03)",
                     opacity: t.unlocked ? 1 : 0.45,
                   }}
                 >
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
-                    style={{
-                      background: isEquipped
-                        ? "rgba(124,58,237,0.25)"
-                        : "rgba(255,255,255,0.06)",
-                    }}
+                    style={{ background: isEquipped ? "rgba(124,58,237,0.25)" : "rgba(255,255,255,0.06)" }}
                   >
                     {t.icon}
                   </div>
                   <div className="flex-1">
-                    <p
-                      className="font-black text-sm tracking-wide"
-                      style={{ color: isEquipped ? "#A78BFA" : t.unlocked ? "#fff" : "#555" }}
-                    >
+                    <p className="font-black text-sm tracking-wide" style={{ color: isEquipped ? "#A78BFA" : t.unlocked ? "#fff" : "#555" }}>
                       {t.label}
                     </p>
                     <p className="text-xs mt-0.5" style={{ color: t.unlocked ? "#666" : "#444" }}>

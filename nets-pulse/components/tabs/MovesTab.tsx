@@ -14,9 +14,12 @@ export default function MovesTab() {
   const total = SPENDING_BREAKDOWN.reduce((s, c) => s + c.amount, 0);
   const filtered = activeCategory === "All"
     ? ALL_TRANSACTIONS
-    : ALL_TRANSACTIONS.filter((tx) => tx.sub.toLowerCase().includes(activeCategory.toLowerCase()) || tx.name.toLowerCase().includes(activeCategory.toLowerCase()));
+    : ALL_TRANSACTIONS.filter((tx) =>
+        tx.sub.toLowerCase().includes(activeCategory.toLowerCase()) ||
+        tx.name.toLowerCase().includes(activeCategory.toLowerCase())
+      );
 
-  // Donut
+  // Donut segments
   const radius = 44;
   const circumference = 2 * Math.PI * radius;
   let offset = 0;
@@ -44,8 +47,12 @@ export default function MovesTab() {
             <h1 className="text-white font-black text-2xl">Your Moves</h1>
           </div>
           <div className="flex gap-2">
-            <button className="w-9 h-9 glass rounded-full border border-white/10 flex items-center justify-center"><Search size={16} className="text-white" /></button>
-            <button className="w-9 h-9 glass rounded-full border border-white/10 flex items-center justify-center"><SlidersHorizontal size={16} className="text-white" /></button>
+            <button className="w-9 h-9 glass rounded-full border border-white/10 flex items-center justify-center">
+              <Search size={16} className="text-white" />
+            </button>
+            <button className="w-9 h-9 glass rounded-full border border-white/10 flex items-center justify-center">
+              <SlidersHorizontal size={16} className="text-white" />
+            </button>
           </div>
         </div>
 
@@ -110,7 +117,7 @@ export default function MovesTab() {
           </div>
         </div>
 
-        {/* Category Filter */}
+        {/* Category Filter Pills */}
         <div className="flex gap-2 overflow-x-auto no-scrollbar">
           {CATEGORIES.map((cat) => (
             <button

@@ -157,7 +157,10 @@ export default function GoalsTab() {
                   <p className="text-gray-400 text-sm">${g.saved.toLocaleString()} / ${g.target.toLocaleString()}</p>
                 </div>
                 <div className="w-full h-2 rounded-full mb-3" style={{ background: "rgba(255,255,255,0.08)" }}>
-                  <div className="h-full rounded-full transition-all duration-700" style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${g.color}, ${g.color}88)` }} />
+                  <div
+                    className="h-full rounded-full transition-all duration-700"
+                    style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${g.color}, ${g.color}88)` }}
+                  />
                 </div>
                 <div className="flex gap-2">
                   <button

@@ -30,7 +30,6 @@ export default function PulseTab() {
           boxShadow: "0 8px 32px rgba(124,58,237,0.3)",
         }}
       >
-        {/* Glow orb */}
         <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full" style={{ background: "radial-gradient(circle, rgba(124,58,237,0.4) 0%, transparent 70%)" }} />
         <p className="text-[#A78BFA] text-xs uppercase tracking-widest mb-1">Total Balance</p>
         <div className="flex items-baseline gap-2 mb-1">
@@ -44,7 +43,7 @@ export default function PulseTab() {
           {[
             { label: "Income", val: USER.income, color: "#10B981", icon: "↙" },
             { label: "Spent",  val: USER.spent,  color: "#EF4444", icon: "↗" },
-            { label: "Saved",  val: USER.saved,  color: "#A78BFA", icon: "↑"  },
+            { label: "Saved",  val: USER.saved,  color: "#A78BFA", icon: "↑" },
           ].map((s) => (
             <div key={s.label} className="flex-1 rounded-2xl p-2.5" style={{ background: "rgba(0,0,0,0.25)" }}>
               <p className="text-gray-400 text-[10px] mb-1">{s.label}</p>
@@ -72,10 +71,10 @@ export default function PulseTab() {
       {/* Quick Actions */}
       <div className="grid grid-cols-4 gap-3">
         {[
-          { icon: Send,           label: "Send",     bg: "#7C3AED" },
-          { icon: Download,       label: "Receive",  bg: "#10B981" },
-          { icon: Plus,           label: "Top Up",   bg: "#B45309" },
-          { icon: MoreHorizontal, label: "More",     bg: "#374151" },
+          { icon: Send,           label: "Send",    bg: "#7C3AED" },
+          { icon: Download,       label: "Receive", bg: "#10B981" },
+          { icon: Plus,           label: "Top Up",  bg: "#B45309" },
+          { icon: MoreHorizontal, label: "More",    bg: "#374151" },
         ].map(({ icon: Icon, label, bg }) => (
           <button key={label} className="flex flex-col items-center gap-1.5 active:scale-90 transition-transform">
             <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg" style={{ background: bg }}>
@@ -110,12 +109,14 @@ export default function PulseTab() {
         <div className="flex items-end gap-2 h-20">
           {WEEKLY_SPENDING.map((d, i) => (
             <div key={d.day} className="flex-1 flex flex-col items-center gap-1">
-              <div className="w-full rounded-t-lg transition-all" style={{ height: `${(d.amount / max) * 100}%`, background: i === 4 ? "#7C3AED" : "rgba(124,58,237,0.3)" }} />
+              <div
+                className="w-full rounded-t-lg transition-all"
+                style={{ height: `${(d.amount / max) * 100}%`, background: i === 4 ? "#7C3AED" : "rgba(124,58,237,0.3)" }}
+              />
               <span className="text-gray-500 text-[10px]">{d.day}</span>
             </div>
           ))}
         </div>
-        {/* SVG Line overlay */}
         <svg className="w-full mt-1" viewBox="0 0 300 40" preserveAspectRatio="none" style={{ height: 30 }}>
           <defs>
             <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">

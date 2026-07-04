@@ -124,12 +124,8 @@ const slides = [
 export default function WrappedModal({ onClose }: WrappedModalProps) {
   const [current, setCurrent] = useState(0);
 
-  const next = () => {
-    if (current < slides.length - 1) setCurrent((c) => c + 1);
-  };
-  const prev = () => {
-    if (current > 0) setCurrent((c) => c - 1);
-  };
+  const next = () => { if (current < slides.length - 1) setCurrent((c) => c + 1); };
+  const prev = () => { if (current > 0) setCurrent((c) => c - 1); };
 
   const slide = slides[current];
 
@@ -137,15 +133,10 @@ export default function WrappedModal({ onClose }: WrappedModalProps) {
     <div className="absolute inset-0 z-50 flex flex-col animate-fade-in" style={{ borderRadius: 40, overflow: "hidden" }}>
       <div className={`absolute inset-0 bg-gradient-to-b ${slide.bg} transition-all duration-700`} />
 
-      {/* Close */}
-      <button
-        onClick={onClose}
-        className="absolute top-12 right-5 z-10 p-2 glass rounded-full border border-white/10"
-      >
+      <button onClick={onClose} className="absolute top-12 right-5 z-10 p-2 glass rounded-full border border-white/10">
         <X size={18} className="text-white" />
       </button>
 
-      {/* Dot indicators */}
       <div className="absolute top-14 left-1/2 -translate-x-1/2 flex gap-2 z-10">
         {slides.map((_, i) => (
           <button
@@ -160,12 +151,10 @@ export default function WrappedModal({ onClose }: WrappedModalProps) {
         ))}
       </div>
 
-      {/* Slide content */}
       <div key={current} className="relative flex-1 animate-fade-scale">
         {slide.content(WRAPPED_STATS)}
       </div>
 
-      {/* Navigation */}
       <div className="relative flex justify-between items-center px-6 pb-10 pt-4">
         <button
           onClick={prev}

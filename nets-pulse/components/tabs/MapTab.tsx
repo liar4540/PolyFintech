@@ -7,10 +7,10 @@ import SmartReceiptModal from "@/components/modals/SmartReceiptModal";
 
 type FilterType = "hotspots" | "hiddenGem" | "peakHours";
 
-const FILTER_CONFIG: Record<FilterType, { label: string; icon: string; glow: string }> = {
-  hotspots:  { label: "🔥 Hot Spots",    icon: "🔥", glow: "#EF4444" },
-  hiddenGem: { label: "💎 Hidden Gems",  icon: "💎", glow: "#10B981" },
-  peakHours: { label: "⏰ Peak Hours",   icon: "⏰", glow: "#F59E0B" },
+const FILTER_CONFIG: Record<FilterType, { label: string; glow: string }> = {
+  hotspots:  { label: "🔥 Hot Spots",   glow: "#EF4444" },
+  hiddenGem: { label: "💎 Hidden Gems", glow: "#10B981" },
+  peakHours: { label: "⏰ Peak Hours",  glow: "#F59E0B" },
 };
 
 export default function MapTab() {
@@ -65,7 +65,9 @@ export default function MapTab() {
                       >
                         {step.icon}
                       </div>
-                      {i < AI_ITINERARY.length - 1 && <div className="w-0.5 flex-1 my-1" style={{ background: "rgba(124,58,237,0.3)" }} />}
+                      {i < AI_ITINERARY.length - 1 && (
+                        <div className="w-0.5 flex-1 my-1" style={{ background: "rgba(124,58,237,0.3)" }} />
+                      )}
                     </div>
                     <div className="flex-1 pb-4">
                       <p className="text-[#A78BFA] text-xs font-semibold">{step.time}</p>
@@ -90,12 +92,14 @@ export default function MapTab() {
           <div className="px-5 pt-14 pb-10 h-full overflow-y-auto no-scrollbar">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-white font-black text-xl">ShareSpace Ledger</h2>
-              <button onClick={() => { setSplitOpen(false); setSettled(false); setSplitGroup(SPLIT_GROUP); }} className="p-2 glass rounded-full border border-white/10">
+              <button
+                onClick={() => { setSplitOpen(false); setSettled(false); setSplitGroup(SPLIT_GROUP); }}
+                className="p-2 glass rounded-full border border-white/10"
+              >
                 <X size={16} className="text-white" />
               </button>
             </div>
 
-            {/* Payment confirmed */}
             <div className="glass rounded-2xl p-4 mb-4 border border-[#10B981]/30">
               <p className="text-[#10B981] text-xs font-bold uppercase tracking-widest mb-1">✅ Payment Confirmed</p>
               <p className="text-white font-bold">Paid 1,200 THB ($45.50 SGD)</p>
@@ -112,16 +116,12 @@ export default function MapTab() {
                   boxShadow: "0 0 24px rgba(124,58,237,0.4)",
                 }}
               >
-                {/* SVG QR mock */}
                 <svg viewBox="0 0 100 100" width={100} height={100}>
                   <rect x="10" y="10" width="30" height="30" rx="3" fill="none" stroke="#7C3AED" strokeWidth="3" />
                   <rect x="60" y="10" width="30" height="30" rx="3" fill="none" stroke="#7C3AED" strokeWidth="3" />
                   <rect x="10" y="60" width="30" height="30" rx="3" fill="none" stroke="#7C3AED" strokeWidth="3" />
-                  {[20,22,24,26,28].map((y) => [20,22,24,26,28].map((x) => (
-                    <rect key={`${x}-${y}`} x={x} y={y} width={2} height={2} fill={Math.random() > 0.5 ? "#7C3AED" : "transparent"} />
-                  )))}
-                  {[65,67,70,72,75,77,80,82,85].map((x) => [65,67,70,72,75,77,80].map((y) => (
-                    <rect key={`q${x}-${y}`} x={x} y={y} width={2} height={2} fill={Math.random() > 0.4 ? "#7C3AED" : "transparent"} />
+                  {[65,67,70,72,75,77,80,82,85].map((x) => [65,67,70,72,75].map((y) => (
+                    <rect key={`q${x}-${y}`} x={x} y={y} width={2} height={2} fill={(x + y) % 3 === 0 ? "#7C3AED" : "transparent"} />
                   )))}
                   <rect x="40" y="40" width="20" height="20" rx="4" fill="#7C3AED" opacity="0.8" />
                 </svg>
@@ -130,7 +130,6 @@ export default function MapTab() {
               <p className="text-gray-400 text-xs mt-2 text-center">Friends scan to split instantly.</p>
             </div>
 
-            {/* Split array */}
             {!settled && (
               <div className="flex flex-col gap-2 mb-4">
                 {splitGroup.map((member) => (
@@ -142,6 +141,7 @@ export default function MapTab() {
                 ))}
               </div>
             )}
+
             {settled && (
               <div className="glass rounded-2xl p-4 mb-4 border border-[#10B981]/30 text-center">
                 <div className="text-3xl mb-2">✅</div>
@@ -197,14 +197,11 @@ export default function MapTab() {
           style={{ height: 260, background: "linear-gradient(135deg, #0a0f0a 0%, #0d160d 100%)" }}
         >
           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 380 260">
-            {/* Grid */}
             {[40,80,120,160,200,240].map((y) => <line key={`h${y}`} x1="0" y1={y} x2="380" y2={y} stroke="rgba(16,185,129,0.07)" strokeWidth="1" />)}
             {[50,100,150,200,250,300,350].map((x) => <line key={`v${x}`} x1={x} y1="0" x2={x} y2="260" stroke="rgba(16,185,129,0.07)" strokeWidth="1" />)}
-            {/* Roads */}
-            {[[0,100,380,100],[0,200,380,200],[190,0,190,260],[80,0,80,260],[310,0,310,260]].map(([x1,y1,x2,y2],i) => (
+            {([[0,100,380,100],[0,200,380,200],[190,0,190,260],[80,0,80,260],[310,0,310,260]] as number[][]).map(([x1,y1,x2,y2],i) => (
               <line key={`r${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(255,255,255,0.05)" strokeWidth="8" />
             ))}
-            {/* Merchant hotspots */}
             {MERCHANTS.map((m) => {
               const score = activeFilter === "hiddenGem" ? m.score.hiddenGem : activeFilter === "peakHours" ? m.score.student : 80;
               const size = 8 + (score / 100) * 8;
@@ -221,13 +218,10 @@ export default function MapTab() {
                 </g>
               );
             })}
-            {/* User location */}
             <circle cx={190} cy={130} r={6} fill="#fff" />
             <circle cx={190} cy={130} r={12} fill="#fff" opacity={0.15} className="animate-pulse" />
             <text x={190} y={148} textAnchor="middle" fill="rgba(255,255,255,0.6)" fontSize="7">You</text>
           </svg>
-
-          {/* Peak hours overlay */}
           {activeFilter === "peakHours" && (
             <div className="absolute top-3 right-3 glass rounded-xl px-3 py-2 border border-[#F59E0B]/30 animate-fade-in">
               <p className="text-[#F59E0B] text-[10px] font-bold">⏰ Peak Now</p>
@@ -237,10 +231,7 @@ export default function MapTab() {
         </div>
 
         {/* Merchant Bottom Drawer */}
-        <div
-          className="rounded-3xl overflow-hidden"
-          style={{ background: "#16161e", border: "1px solid rgba(255,255,255,0.07)" }}
-        >
+        <div className="rounded-3xl overflow-hidden" style={{ background: "#16161e", border: "1px solid rgba(255,255,255,0.07)" }}>
           <button
             className="w-full flex items-center justify-between px-5 py-3"
             onClick={() => setDrawerOpen((o) => !o)}
@@ -256,23 +247,21 @@ export default function MapTab() {
             <div className="px-5 pb-4 animate-slide-down">
               <div className="flex gap-2 mb-3">
                 {[
-                  { icon: Star,   val: `${selectedMerchant.successRate}%`, label: "Success" },
-                  { icon: Flame,  val: "🔥 Hot",                          label: "Trending" },
-                  { icon: Clock,  val: selectedMerchant.score.peak,       label: "Peak" },
-                  { icon: Gem,    val: `${selectedMerchant.score.hiddenGem}`,  label: "Gem Score" },
-                ].map(({ icon: Icon, val, label }) => (
+                  { icon: Star,  val: `${selectedMerchant.successRate}%`, label: "Success" },
+                  { icon: Flame, val: "🔥 Hot",                          label: "Trending" },
+                  { icon: Clock, val: selectedMerchant.score.peak,       label: "Peak" },
+                  { icon: Gem,   val: `${selectedMerchant.score.hiddenGem}`, label: "Gem Score" },
+                ].map(({ val, label }) => (
                   <div key={label} className="flex-1 rounded-xl p-2 text-center" style={{ background: "rgba(255,255,255,0.04)" }}>
                     <p className="text-white text-xs font-bold">{val}</p>
                     <p className="text-gray-500 text-[9px]">{label}</p>
                   </div>
                 ))}
               </div>
-
               <div className="glass rounded-2xl p-3 mb-3 border border-white/5">
                 <p className="text-[#10B981] text-[10px] font-bold uppercase tracking-widest mb-0.5">Live Pulse</p>
                 <p className="text-gray-300 text-xs">{selectedMerchant.pulse}</p>
               </div>
-
               <div className="flex gap-2">
                 <button
                   onClick={() => setItineraryOpen(true)}

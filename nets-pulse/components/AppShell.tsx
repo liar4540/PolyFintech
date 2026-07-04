@@ -22,7 +22,6 @@ export default function NETSPulseApp() {
   const [activeTab, setActiveTab] = useState<Tab>("pulse");
 
   return (
-    /* Outer page centring */
     <div
       className="flex items-start justify-center min-h-screen w-full py-4"
       style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.12) 0%, #080810 55%)" }}
@@ -91,7 +90,6 @@ export default function NETSPulseApp() {
                 style={{ minWidth: 56 }}
               >
                 {id === "map" ? (
-                  /* Map tab — special floating pill */
                   <div
                     className="w-12 h-12 rounded-full flex items-center justify-center -mt-6 shadow-lg"
                     style={{
@@ -105,15 +103,9 @@ export default function NETSPulseApp() {
                     <Icon size={20} style={{ color: "#fff" }} />
                   </div>
                 ) : (
-                  <Icon
-                    size={22}
-                    style={{ color: isActive ? "#7C3AED" : "#555" }}
-                  />
+                  <Icon size={22} style={{ color: isActive ? "#7C3AED" : "#555" }} />
                 )}
-                <span
-                  className="text-[10px] font-semibold"
-                  style={{ color: isActive ? "#7C3AED" : "#444" }}
-                >
+                <span className="text-[10px] font-semibold" style={{ color: isActive ? "#7C3AED" : "#444" }}>
                   {label}
                 </span>
               </button>

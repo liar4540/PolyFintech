@@ -13,8 +13,6 @@ export default function ProfileTab() {
   const [showWrapped, setShowWrapped] = useState(false);
   const [checkedIn, setCheckedIn] = useState(false);
 
-  const titleObj = equippedTitle;
-
   const handleCheckIn = () => {
     if (checkedIn) return;
     setStreak((s) => s + 1);
@@ -55,7 +53,6 @@ export default function ProfileTab() {
             </div>
             <div className="flex-1">
               <p className="text-white font-black text-xl">{USER.name}</p>
-              {/* Discord-style title */}
               <div
                 className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mt-1.5"
                 style={{
@@ -65,7 +62,7 @@ export default function ProfileTab() {
                 }}
               >
                 <span className="text-[10px]">⚡</span>
-                <span className="text-[#A78BFA] font-black text-xs tracking-wider">{titleObj}</span>
+                <span className="text-[#A78BFA] font-black text-xs tracking-wider">{equippedTitle}</span>
               </div>
             </div>
           </div>
@@ -98,7 +95,7 @@ export default function ProfileTab() {
           </button>
         </div>
 
-        {/* Payment Replay — Wrapped CTA */}
+        {/* Payment Replay Wrapped CTA */}
         <button
           onClick={() => setShowWrapped(true)}
           className="w-full py-5 rounded-3xl relative overflow-hidden active:scale-95 transition-transform gradient-border"
@@ -152,9 +149,9 @@ export default function ProfileTab() {
         {/* Stats row */}
         <div className="grid grid-cols-3 gap-3">
           {[
-            { icon: "🌏", label: "Countries",  val: "4" },
-            { icon: "⚡", label: "Transactions", val: "187" },
-            { icon: "💰", label: "Saved",       val: "$1,280" },
+            { icon: "🌏", label: "Countries",    val: "4"     },
+            { icon: "⚡", label: "Transactions", val: "187"   },
+            { icon: "💰", label: "Saved",        val: "$1,280" },
           ].map((s) => (
             <div key={s.label} className="glass rounded-2xl p-3 text-center border border-white/5">
               <div className="text-2xl mb-1">{s.icon}</div>

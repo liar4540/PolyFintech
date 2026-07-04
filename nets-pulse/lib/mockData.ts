@@ -14,11 +14,11 @@ export const USER = {
 };
 
 export const TITLES = [
-  { id: "chagee",   label: "CHAGEE ADDICT",      icon: "⚡", unlocked: true  },
-  { id: "commuter", label: "COMMUTER HERO",        icon: "🚇", unlocked: true  },
-  { id: "cafe",     label: "CAFÉ HOPPER",          icon: "☕", unlocked: true  },
-  { id: "globe",    label: "GLOBE TROTTER",        icon: "🌏", unlocked: false },
-  { id: "gem",      label: "HIDDEN GEM HUNTER",   icon: "💎", unlocked: false },
+  { id: "chagee",   label: "CHAGEE ADDICT",    icon: "⚡", unlocked: true  },
+  { id: "commuter", label: "COMMUTER HERO",      icon: "🚇", unlocked: true  },
+  { id: "cafe",     label: "CAFÉ HOPPER",        icon: "☕", unlocked: true  },
+  { id: "globe",    label: "GLOBE TROTTER",      icon: "🌏", unlocked: false },
+  { id: "gem",      label: "HIDDEN GEM HUNTER",  icon: "💎", unlocked: false },
 ];
 
 export const WEEKLY_SPENDING = [
@@ -31,10 +31,10 @@ export const WEEKLY_SPENDING = [
 ];
 
 export const RECENT_TRANSACTIONS = [
-  { id: 1,  icon: "🎵", name: "Spotify Premium",   sub: "Monthly sub",   amount: -9.99,  color: "#1DB954" },
-  { id: 2,  icon: "🍱", name: "GrabFood",           sub: "Lunch order",   amount: -18.50, color: "#00B14F" },
-  { id: 3,  icon: "👗", name: "Uniqlo",             sub: "Summer haul",   amount: -67.90, color: "#E50000" },
-  { id: 4,  icon: "☕", name: "Flash Coffee",       sub: "Iced latte",    amount: -6.50,  color: "#F5A623" },
+  { id: 1, icon: "🎵", name: "Spotify Premium", sub: "Monthly sub",  amount: -9.99,  color: "#1DB954" },
+  { id: 2, icon: "🍱", name: "GrabFood",         sub: "Lunch order", amount: -18.50, color: "#00B14F" },
+  { id: 3, icon: "👗", name: "Uniqlo",            sub: "Summer haul", amount: -67.90, color: "#E50000" },
+  { id: 4, icon: "☕", name: "Flash Coffee",      sub: "Iced latte",  amount: -6.50,  color: "#F5A623" },
 ];
 
 export const SPENDING_BREAKDOWN = [
@@ -47,13 +47,13 @@ export const SPENDING_BREAKDOWN = [
 ];
 
 export const ALL_TRANSACTIONS = [
-  { id: 1, date: "TODAY",     icon: "🍱", name: "Grab Food",    sub: "Lunch order",   amount: -18.50 },
-  { id: 2, date: "TODAY",     icon: "🎵", name: "Spotify",      sub: "Monthly sub",   amount: -9.99  },
-  { id: 3, date: "YESTERDAY", icon: "👗", name: "Uniqlo",       sub: "Summer haul",   amount: -67.90 },
-  { id: 4, date: "YESTERDAY", icon: "☕", name: "Flash Coffee", sub: "Iced latte",    amount: -6.50  },
-  { id: 5, date: "YESTERDAY", icon: "🚇", name: "MRT / Bus",    sub: "EZ-Link top up",amount: -20.00 },
-  { id: 6, date: "MON 30 JUN",icon: "🧋", name: "Chagee",       sub: "Brown sugar latte", amount: -6.00 },
-  { id: 7, date: "MON 30 JUN",icon: "🍜", name: "Jeh O Chula",  sub: "Dinner",        amount: -28.00 },
+  { id: 1, date: "TODAY",      icon: "🍱", name: "Grab Food",    sub: "Lunch order",    amount: -18.50 },
+  { id: 2, date: "TODAY",      icon: "🎵", name: "Spotify",      sub: "Monthly sub",    amount: -9.99  },
+  { id: 3, date: "YESTERDAY",  icon: "👗", name: "Uniqlo",       sub: "Summer haul",    amount: -67.90 },
+  { id: 4, date: "YESTERDAY",  icon: "☕", name: "Flash Coffee", sub: "Iced latte",     amount: -6.50  },
+  { id: 5, date: "YESTERDAY",  icon: "🚇", name: "MRT / Bus",    sub: "EZ-Link top up", amount: -20.00 },
+  { id: 6, date: "MON 30 JUN", icon: "🧋", name: "Chagee",       sub: "Brown sugar latte", amount: -6.00 },
+  { id: 7, date: "MON 30 JUN", icon: "🍜", name: "Jeh O Chula",  sub: "Dinner",         amount: -28.00 },
 ];
 
 export const MERCHANTS = [
@@ -90,17 +90,17 @@ export const MERCHANTS = [
 ];
 
 export const AI_ITINERARY = [
-  { step: 1, time: "10:00 AM", place: "Chagee Siam Square",      action: "Morning milk tea (budget ~$5)", icon: "🧋" },
-  { step: 2, time: "11:30 AM", place: "MBK Center",               action: "Shop local fashion & souvenirs (~$30)", icon: "🛍️" },
-  { step: 3, time: "1:30 PM",  place: "Jeh O Chula",              action: "Famous Michelin-starred boat noodles (~$8)", icon: "🍜" },
-  { step: 4, time: "3:00 PM",  place: "Lumpini Park",             action: "Free chill + content creation", icon: "🌿" },
-  { step: 5, time: "6:00 PM",  place: "After You Dessert Café",   action: "Shibuya honey toast (~$12)", icon: "🍞" },
+  { step: 1, time: "10:00 AM", place: "Chagee Siam Square",    action: "Morning milk tea (budget ~$5)",                  icon: "🧋" },
+  { step: 2, time: "11:30 AM", place: "MBK Center",             action: "Shop local fashion & souvenirs (~$30)",          icon: "🛍️" },
+  { step: 3, time: "1:30 PM",  place: "Jeh O Chula",            action: "Famous Michelin-starred boat noodles (~$8)",     icon: "🍜" },
+  { step: 4, time: "3:00 PM",  place: "Lumpini Park",           action: "Free chill + content creation",                 icon: "🌿" },
+  { step: 5, time: "6:00 PM",  place: "After You Dessert Café", action: "Shibuya honey toast (~$12)",                    icon: "🍞" },
 ];
 
 export const SPLIT_GROUP = [
-  { id: 1, name: "Kai",   avatar: "KA", owes: 15.00 },
-  { id: 2, name: "Ryan",  avatar: "RY", owes: 12.50 },
-  { id: 3, name: "Jess",  avatar: "JE", owes: 10.00 },
+  { id: 1, name: "Kai",  avatar: "KA", owes: 15.00 },
+  { id: 2, name: "Ryan", avatar: "RY", owes: 12.50 },
+  { id: 3, name: "Jess", avatar: "JE", owes: 10.00 },
 ];
 
 export const GOALS = [
@@ -127,21 +127,21 @@ export const GOALS = [
 ];
 
 export const BADGES = [
-  { id: 1,  icon: "🔥", label: "7-Day Streak",      unlocked: true  },
-  { id: 2,  icon: "🌏", label: "First Overseas Pay", unlocked: true  },
-  { id: 3,  icon: "💎", label: "Hidden Gem Finder",  unlocked: true  },
-  { id: 4,  icon: "🧋", label: "Chagee Addict",      unlocked: true  },
-  { id: 5,  icon: "🚇", label: "Commuter Hero",       unlocked: true  },
-  { id: 6,  icon: "🎯", label: "14-Day Streak",      unlocked: false },
-  { id: 7,  icon: "🏆", label: "Top Spender",        unlocked: false },
-  { id: 8,  icon: "🌟", label: "Globe Trotter",      unlocked: false },
+  { id: 1, icon: "🔥", label: "7-Day Streak",       unlocked: true  },
+  { id: 2, icon: "🌏", label: "First Overseas Pay",  unlocked: true  },
+  { id: 3, icon: "💎", label: "Hidden Gem Finder",   unlocked: true  },
+  { id: 4, icon: "🧋", label: "Chagee Addict",       unlocked: true  },
+  { id: 5, icon: "🚇", label: "Commuter Hero",        unlocked: true  },
+  { id: 6, icon: "🎯", label: "14-Day Streak",       unlocked: false },
+  { id: 7, icon: "🏆", label: "Top Spender",         unlocked: false },
+  { id: 8, icon: "🌟", label: "Globe Trotter",       unlocked: false },
 ];
 
 export const VOUCHERS = [
-  { id: 1, merchant: "Chagee",       discount: "$1.00 off",     daysNeeded: 0,  unlocked: true  },
-  { id: 2, merchant: "Flash Coffee", discount: "$2.00 off",     daysNeeded: 0,  unlocked: true  },
-  { id: 3, merchant: "GrabFood",     discount: "5% off order",  daysNeeded: 10, unlocked: false },
-  { id: 4, merchant: "Uniqlo",       discount: "$5.00 off",     daysNeeded: 14, unlocked: false },
+  { id: 1, merchant: "Chagee",       discount: "$1.00 off",    daysNeeded: 0,  unlocked: true  },
+  { id: 2, merchant: "Flash Coffee", discount: "$2.00 off",    daysNeeded: 0,  unlocked: true  },
+  { id: 3, merchant: "GrabFood",     discount: "5% off order", daysNeeded: 10, unlocked: false },
+  { id: 4, merchant: "Uniqlo",       discount: "$5.00 off",    daysNeeded: 14, unlocked: false },
 ];
 
 export const TIME_CAPSULE = {
@@ -154,10 +154,10 @@ export const TIME_CAPSULE = {
   visits: 6,
   countries: ["🇸🇬 Singapore", "🇹🇭 Thailand"],
   transactions: [
-    { icon: "🧋", name: "Chagee Siam Square",  amount: -6.50,  date: "22 Jun" },
-    { icon: "🍜", name: "Jeh O Chula",          amount: -28.00, date: "23 Jun" },
-    { icon: "🛍️", name: "MBK Center",           amount: -85.00, date: "23 Jun" },
-    { icon: "🍞", name: "After You Café",        amount: -12.00, date: "24 Jun" },
+    { icon: "🧋", name: "Chagee Siam Square",     amount: -6.50,  date: "22 Jun" },
+    { icon: "🍜", name: "Jeh O Chula",             amount: -28.00, date: "23 Jun" },
+    { icon: "🛍️", name: "MBK Center",              amount: -85.00, date: "23 Jun" },
+    { icon: "🍞", name: "After You Café",           amount: -12.00, date: "24 Jun" },
     { icon: "🎡", name: "Asiatique The Riverfront", amount: -22.00, date: "25 Jun" },
   ],
 };
