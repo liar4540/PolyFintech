@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --nets-red: #EA0029;
+  --nets-red: #E4002B;
   --nets-red-light: #FF1A3E;
-  --nets-blue: #001489;
+  --nets-blue: #003DA5;
   --nets-blue-light: #0022CC;
   --nets-navy: #07101F;
   --nets-pink: #F78DA7;
@@ -79,8 +79,8 @@ body {
 }
 
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 8px 2px rgba(234,0,41,0.4), 0 0 4px 1px rgba(0,20,137,0.2); }
-  50%       { box-shadow: 0 0 20px 6px rgba(234,0,41,0.7), 0 0 12px 3px rgba(0,20,137,0.35); }
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(228,0,43,0.4), 0 0 4px 1px rgba(0,61,165,0.2); }
+  50%       { box-shadow: 0 0 20px 6px rgba(228,0,43,0.7), 0 0 12px 3px rgba(0,61,165,0.35); }
 }
 
 @keyframes fire-bounce {
@@ -121,7 +121,7 @@ body {
   inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(135deg, #EA0029, #10B981, #EA0029);
+  background: linear-gradient(135deg, #E4002B, #10B981, #E4002B);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;

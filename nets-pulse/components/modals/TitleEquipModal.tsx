@@ -37,17 +37,17 @@ export default function TitleEquipModal({ equipped, onEquip, onClose }: TitleEqu
                   className="flex items-center gap-4 p-4 rounded-2xl text-left transition-all active:scale-95 relative overflow-hidden"
                   style={{
                     background: isEquipped
-                      ? "linear-gradient(135deg, rgba(234,0,41,0.25), rgba(16,185,129,0.12))"
+                      ? "linear-gradient(135deg, rgba(228,0,43,0.25), rgba(16,185,129,0.12))"
                       : t.unlocked ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.02)",
                     border: isEquipped
-                      ? "1px solid rgba(234,0,41,0.5)"
+                      ? "1px solid rgba(228,0,43,0.5)"
                       : t.unlocked ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(255,255,255,0.03)",
                     opacity: t.unlocked ? 1 : 0.45,
                   }}
                 >
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
-                    style={{ background: isEquipped ? "rgba(234,0,41,0.2)" : "rgba(255,255,255,0.06)" }}
+                    style={{ background: isEquipped ? "rgba(228,0,43,0.2)" : "rgba(255,255,255,0.06)" }}
                   >
                     {t.icon}
                   </div>
@@ -60,7 +60,7 @@ export default function TitleEquipModal({ equipped, onEquip, onClose }: TitleEqu
                     </p>
                   </div>
                   {isEquipped && (
-                    <div className="w-6 h-6 rounded-full bg-[#EA0029] flex items-center justify-center flex-shrink-0">
+                    <div className="w-6 h-6 rounded-full bg-[#E4002B] flex items-center justify-center flex-shrink-0">
                       <Check size={12} className="text-white" />
                     </div>
                   )}

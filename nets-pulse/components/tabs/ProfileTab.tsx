@@ -45,16 +45,16 @@ export default function ProfileTab() {
           className="rounded-3xl p-5 relative overflow-hidden"
           style={{
             background: "linear-gradient(135deg, #1a0510 0%, #011835 100%)",
-            border: "1px solid rgba(234,0,41,0.3)",
-            boxShadow: "0 0 40px rgba(234,0,41,0.12)",
+            border: "1px solid rgba(228,0,43,0.3)",
+            boxShadow: "0 0 40px rgba(228,0,43,0.12)",
           }}
         >
-          <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full" style={{ background: "radial-gradient(circle, rgba(234,0,41,0.20) 0%, transparent 70%)" }} />
+          <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full" style={{ background: "radial-gradient(circle, rgba(228,0,43,0.20) 0%, transparent 70%)" }} />
           <div className="flex items-center gap-4">
             <div
               className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-black text-white flex-shrink-0 animate-glow-pulse"
               style={{
-                background: "linear-gradient(135deg, #EA0029, #B8001F)",
+                background: "linear-gradient(135deg, #E4002B, #B8001F)",
                 border: "2px solid rgba(247,141,167,0.5)",
               }}
             >
@@ -65,9 +65,9 @@ export default function ProfileTab() {
               <div
                 className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mt-1.5"
                 style={{
-                  background: "linear-gradient(135deg, rgba(234,0,41,0.25), rgba(16,185,129,0.15))",
+                  background: "linear-gradient(135deg, rgba(228,0,43,0.25), rgba(16,185,129,0.15))",
                   border: "1px solid rgba(247,141,167,0.4)",
-                  boxShadow: "0 0 10px rgba(234,0,41,0.25)",
+                  boxShadow: "0 0 10px rgba(228,0,43,0.25)",
                 }}
               >
                 <span className="text-[10px]">⚡</span>
@@ -77,8 +77,8 @@ export default function ProfileTab() {
           </div>
           <button
             onClick={() => setShowTitleModal(true)}
-            className="mt-4 w-full py-2 rounded-xl text-xs font-bold text-[#F78DA7] border border-[#EA0029]/30 active:scale-95 transition-transform flex items-center justify-center gap-1"
-            style={{ background: "rgba(234,0,41,0.1)" }}
+            className="mt-4 w-full py-2 rounded-xl text-xs font-bold text-[#F78DA7] border border-[#E4002B]/30 active:scale-95 transition-transform flex items-center justify-center gap-1"
+            style={{ background: "rgba(228,0,43,0.1)" }}
           >
             Change Title <ChevronRight size={12} />
           </button>
@@ -110,10 +110,10 @@ export default function ProfileTab() {
           className="w-full py-5 rounded-3xl relative overflow-hidden active:scale-95 transition-transform gradient-border"
           style={{ background: "linear-gradient(135deg, #1a0510 0%, #011835 100%)" }}
         >
-          <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(234,0,41,0.12), rgba(16,185,129,0.08))" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(228,0,43,0.12), rgba(16,185,129,0.08))" }} />
           <div className="relative flex items-center justify-between px-5">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: "rgba(234,0,41,0.15)" }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: "rgba(228,0,43,0.15)" }}>
                 🎵
               </div>
               <div className="text-left">
@@ -122,7 +122,7 @@ export default function ProfileTab() {
                 <p className="text-gray-400 text-xs">Wrapped-style · Tap to relive</p>
               </div>
             </div>
-            <Sparkles size={20} className="text-[#EA0029]" />
+            <Sparkles size={20} className="text-[#E4002B]" />
           </div>
         </button>
 

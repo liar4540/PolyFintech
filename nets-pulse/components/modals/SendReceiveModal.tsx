@@ -11,16 +11,16 @@ interface SendReceiveModalProps {
 }
 
 const CONTACTS = [
-  { id: 1, name: "Kai",  avatar: "K", color: "#001489" },
+  { id: 1, name: "Kai",  avatar: "K", color: "#003DA5" },
   { id: 2, name: "Mia",  avatar: "M", color: "#10B981" },
-  { id: 3, name: "Ryan", avatar: "R", color: "#EA0029" },
+  { id: 3, name: "Ryan", avatar: "R", color: "#E4002B" },
   { id: 4, name: "Jess", avatar: "J", color: "#F59E0B" },
 ];
 
 const TOP_UP_AMOUNTS = [10, 20, 50, 100, 200];
 
-const NETS_BLUE = "#001489";
-const NETS_RED  = "#EA0029";
+const NETS_BLUE = "#003DA5";
+const NETS_RED  = "#E4002B";
 
 export default function SendReceiveModal({ mode, onClose }: SendReceiveModalProps) {
   const [step, setStep] = useState<"form" | "confirm" | "done">("form");
