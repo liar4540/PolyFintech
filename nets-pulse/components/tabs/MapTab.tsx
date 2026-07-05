@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Filter, Bot, Sparkles, X, ChevronUp, ChevronDown, Clock, Star, Gem, Flame, Share2, CreditCard, RotateCcw, CheckCircle2 } from "lucide-react";
-import { MERCHANTS, AI_ITINERARY_MERCHANTS, SPLIT_GROUP } from "@/lib/mockData";
+import { Filter, Bot, Sparkles, X, ChevronUp, ChevronDown, Clock, Star, Gem, Flame, Share2, CreditCard, RotateCcw, CheckCircle2, Loader2, MapPin, Wand2 } from "lucide-react";
+import { MERCHANTS, SPLIT_GROUP } from "@/lib/mockData";
 import SmartReceiptModal from "@/components/modals/SmartReceiptModal";
 
 type FilterType = "hotspots" | "hiddenGem" | "peakHours";
@@ -30,10 +30,49 @@ export default function MapTab() {
   const [ledgerOpen, setLedgerOpen] = useState(false);
   const [checkedMerchants, setCheckedMerchants] = useState<Set<number>>(new Set());
 
-  const totalOwed = splitGroup.filter((m) => !m.settled).reduce((s, m) => s + m.owes, 0);
-  const perPerson = (splitGroup.reduce((s, m) => s + m.owes, 0) + 45.50) / (splitGroup.length + 1);
-  const totalBaht = AI_ITINERARY_MERCHANTS.reduce((s, m) => s + m.priceBaht, 0);
-  const totalSGD  = (totalBaht / 28).toFixed(0);
+  // ─── AI Itinerary state ──────────────────────────────────────
+  type AIMerchant = { id: number; icon: string; name: string; category: string; rating: number; priceBaht: number; netsQr?: boolean };
+  type AIResult   = { title: string; subtitle: string; totalBudgetNote: string; merchants: AIMerchant[] };
+
+  const [aiStep, setAiStep]       = useState<"prompt" | "loading" | "result" | "error">("prompt");
+  const [aiResult, setAiResult]   = useState<AIResult | null>(null);
+  const [aiError, setAiError]     = useState("");
+  const [aiLocation, setAiLocation] = useState("Bangkok, Thailand");
+  const [aiBudget, setAiBudget]   = useState("SGD 60");
+  const [aiPrefs, setAiPrefs]     = useState<string[]>(["food", "drinks", "dessert"]);
+
+  const PREF_OPTIONS = ["food", "drinks", "dessert", "shopping", "culture", "nightlife"];
+
+  const generateItinerary = async () => {
+    setAiStep("loading");
+    setAiError("");
+    try {
+      const res = await fetch("/api/itinerary", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          location: aiLocation,
+          budget: aiBudget,
+          preferences: aiPrefs.join(", "),
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "API error");
+      }
+      const data: AIResult = await res.json();
+      if (!data.merchants?.length) throw new Error("No merchants returned");
+      setAiResult(data);
+      setAiStep("result");
+    } catch (e: unknown) {
+      setAiError(e instanceof Error ? e.message : "Something went wrong");
+      setAiStep("error");
+    }
+  };
+
+  const aiMerchants = aiResult?.merchants ?? [];
+  const aiTotalBaht = aiMerchants.reduce((s, m) => s + m.priceBaht, 0);
+  const aiTotalSGD  = (aiTotalBaht / 28).toFixed(0);
 
   const handleSettle = () => {
     setSplitGroup((g) => g.map((m) => ({ ...m, settled: true, method: "Bank Transfer" as string | null, settledAt: "Now" as string | null })));
@@ -58,6 +97,10 @@ export default function MapTab() {
     });
   };
 
+
+  const totalOwed = splitGroup.filter((m) => !m.settled).reduce((s, m) => s + m.owes, 0);
+  const perPerson = (splitGroup.reduce((s, m) => s + m.owes, 0) + 45.50) / (splitGroup.length + 1);
+
   const glowColor = FILTER_CONFIG[activeFilter].glow;
 
   return (
@@ -76,11 +119,15 @@ export default function MapTab() {
                   <p className="text-xs font-black tracking-widest uppercase mb-0.5" style={{ color: NETS_RED }}>
                     ⚡ AI MICRO-ITINERARY
                   </p>
-                  <h2 className="text-white font-black text-xl leading-tight">Siam Square Day Plan</h2>
-                  <p className="text-gray-400 text-xs mt-0.5">Budget-capped · NETS QR merchants only</p>
+                  <h2 className="text-white font-black text-xl leading-tight">
+                    {aiStep === "result" ? aiResult?.title : "Plan My Day"}
+                  </h2>
+                  <p className="text-gray-400 text-xs mt-0.5">
+                    {aiStep === "result" ? aiResult?.subtitle : "Powered by DeepSeek AI · NETS QR only"}
+                  </p>
                 </div>
                 <button
-                  onClick={() => setItineraryOpen(false)}
+                  onClick={() => { setItineraryOpen(false); setAiStep("prompt"); setAiResult(null); }}
                   className="p-2 rounded-full border border-white/10 flex items-center justify-center"
                   style={{ background: "rgba(255,255,255,0.06)" }}
                 >
@@ -88,82 +135,222 @@ export default function MapTab() {
                 </button>
               </div>
 
-              {/* Total Budget Bar */}
-              <div
-                className="rounded-2xl px-4 py-3 mb-4 flex items-center justify-between"
-                style={{ background: "rgba(0,20,137,0.25)", border: "1px solid rgba(0,20,137,0.5)" }}
-              >
-                <p className="text-white text-xs font-semibold">Total budget</p>
-                <p className="text-white font-black text-sm">
-                  ฿{totalBaht.toLocaleString()} SGD ≈ <span style={{ color: "#6EE7B7" }}>${totalSGD}</span>
-                </p>
-              </div>
+              {/* ── PROMPT FORM ──────────────────────────────────── */}
+              {aiStep === "prompt" && (
+                <div className="flex flex-col gap-4">
+                  <div
+                    className="rounded-2xl p-4"
+                    style={{ background: "rgba(0,20,137,0.12)", border: "1px solid rgba(0,20,137,0.35)" }}
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <Bot size={14} style={{ color: NETS_BLUE }} />
+                      <p className="text-blue-300 text-xs font-semibold">Tell DeepSeek where you want to go</p>
+                    </div>
 
-              {/* Merchant Checklist */}
-              <div className="flex flex-col gap-2">
-                {AI_ITINERARY_MERCHANTS.map((m) => {
-                  const isChecked = checkedMerchants.has(m.id);
-                  return (
-                    <button
-                      key={m.id}
-                      onClick={() => toggleMerchant(m.id)}
-                      className="w-full flex items-center gap-3 rounded-2xl px-4 py-3 text-left transition-all active:scale-95"
-                      style={{
-                        background: isChecked ? "rgba(0,20,137,0.2)" : "rgba(255,255,255,0.04)",
-                        border: isChecked ? `1px solid ${NETS_BLUE}` : "1px solid rgba(255,255,255,0.07)",
-                      }}
-                    >
-                      {/* Checkbox */}
+                    {/* Location */}
+                    <div className="mb-3">
+                      <p className="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-1.5">📍 Location</p>
+                      <div className="flex items-center gap-2 rounded-xl px-3 py-2.5" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                        <MapPin size={13} className="text-gray-400 flex-shrink-0" />
+                        <input
+                          type="text"
+                          value={aiLocation}
+                          onChange={(e) => setAiLocation(e.target.value)}
+                          className="flex-1 bg-transparent text-white text-sm outline-none placeholder-gray-600"
+                          placeholder="e.g. Bangkok, Thailand"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Budget */}
+                    <div className="mb-3">
+                      <p className="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-1.5">💰 Budget</p>
+                      <div className="flex gap-2">
+                        {["SGD 30", "SGD 60", "SGD 100", "SGD 150"].map((b) => (
+                          <button
+                            key={b}
+                            onClick={() => setAiBudget(b)}
+                            className="flex-1 py-2 rounded-xl text-xs font-bold transition-all active:scale-90"
+                            style={{
+                              background: aiBudget === b ? NETS_BLUE : "rgba(255,255,255,0.06)",
+                              color: aiBudget === b ? "#fff" : "#777",
+                              border: aiBudget === b ? "none" : "1px solid rgba(255,255,255,0.08)",
+                            }}
+                          >
+                            {b}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Preferences */}
+                    <div>
+                      <p className="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-1.5">✨ Vibe</p>
+                      <div className="flex flex-wrap gap-2">
+                        {PREF_OPTIONS.map((p) => {
+                          const on = aiPrefs.includes(p);
+                          return (
+                            <button
+                              key={p}
+                              onClick={() => setAiPrefs((prev) => on ? prev.filter((x) => x !== p) : [...prev, p])}
+                              className="px-3 py-1.5 rounded-full text-xs font-bold capitalize transition-all active:scale-90"
+                              style={{
+                                background: on ? NETS_RED : "rgba(255,255,255,0.06)",
+                                color: on ? "#fff" : "#777",
+                                border: on ? "none" : "1px solid rgba(255,255,255,0.08)",
+                              }}
+                            >
+                              {p}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={generateItinerary}
+                    disabled={!aiLocation.trim()}
+                    className="w-full py-4 rounded-2xl text-white font-black text-sm flex items-center justify-center gap-2 active:scale-95 transition-transform disabled:opacity-40"
+                    style={{ background: `linear-gradient(135deg, ${NETS_BLUE}, #0022CC)`, boxShadow: "0 4px 20px rgba(0,20,137,0.4)" }}
+                  >
+                    <Wand2 size={16} /> Generate with DeepSeek AI
+                  </button>
+
+                  <p className="text-center text-gray-600 text-[10px]">AI-generated · Merchants may vary · Always verify NETS QR acceptance</p>
+                </div>
+              )}
+
+              {/* ── LOADING ──────────────────────────────────────── */}
+              {aiStep === "loading" && (
+                <div className="flex flex-col items-center justify-center gap-5 py-16">
+                  <div className="relative">
+                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${NETS_BLUE}, ${NETS_RED})` }}>
+                      <Bot size={28} className="text-white" />
+                    </div>
+                    <Loader2 size={14} className="absolute -top-1 -right-1 text-white animate-spin" />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-white font-black text-base">DeepSeek is thinking...</p>
+                    <p className="text-gray-400 text-xs mt-1">Finding the best NETS QR spots in {aiLocation}</p>
+                  </div>
+                  <div className="flex gap-1.5 mt-2">
+                    {[0, 1, 2].map((i) => (
                       <div
-                        className="w-5 h-5 rounded flex-shrink-0 flex items-center justify-center border transition-all"
-                        style={{
-                          background: isChecked ? NETS_BLUE : "transparent",
-                          borderColor: isChecked ? NETS_BLUE : "rgba(255,255,255,0.25)",
-                        }}
-                      >
-                        {isChecked && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                      </div>
+                        key={i}
+                        className="w-2 h-2 rounded-full animate-bounce"
+                        style={{ background: i === 0 ? NETS_RED : i === 1 ? NETS_BLUE : "#10B981", animationDelay: `${i * 0.15}s` }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
 
-                      {/* Icon */}
-                      <div
-                        className="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
-                        style={{ background: "rgba(255,255,255,0.08)" }}
-                      >
-                        {m.icon}
-                      </div>
+              {/* ── ERROR ────────────────────────────────────────── */}
+              {aiStep === "error" && (
+                <div className="flex flex-col items-center gap-4 py-10 text-center">
+                  <div className="text-4xl">⚠️</div>
+                  <div>
+                    <p className="text-white font-bold">Couldn&apos;t generate itinerary</p>
+                    <p className="text-gray-400 text-xs mt-1 max-w-xs">{aiError}</p>
+                    <p className="text-gray-600 text-xs mt-2">Make sure DEEPSEEK_API_KEY is set in .env.local</p>
+                  </div>
+                  <button
+                    onClick={() => setAiStep("prompt")}
+                    className="px-5 py-2.5 rounded-2xl text-white text-sm font-bold"
+                    style={{ background: NETS_BLUE }}
+                  >
+                    Try Again
+                  </button>
+                </div>
+              )}
 
-                      {/* Info */}
-                      <div className="flex-1 min-w-0">
-                        <p className="text-white font-bold text-sm truncate">{m.name}</p>
-                        <div className="flex items-center gap-1.5 mt-0.5">
-                          <span className="text-gray-400 text-xs">{m.category}</span>
-                          <span className="text-gray-600">·</span>
-                          <span className="text-yellow-400 text-xs">★ {m.rating}</span>
-                        </div>
-                      </div>
+              {/* ── RESULT ───────────────────────────────────────── */}
+              {aiStep === "result" && aiResult && (
+                <>
+                  {/* Budget bar */}
+                  <div
+                    className="rounded-2xl px-4 py-3 mb-4 flex items-center justify-between"
+                    style={{ background: "rgba(0,20,137,0.25)", border: "1px solid rgba(0,20,137,0.5)" }}
+                  >
+                    <p className="text-white text-xs font-semibold">Total budget</p>
+                    <p className="text-white font-black text-sm">
+                      {aiResult.totalBudgetNote || `฿${aiTotalBaht} ≈ SGD ${aiTotalSGD}`}
+                    </p>
+                  </div>
 
-                      {/* Price + NETS badge */}
-                      <div className="flex flex-col items-end gap-1 flex-shrink-0">
-                        <p className="font-black text-sm" style={{ color: NETS_RED }}>฿{m.priceBaht}</p>
-                        <div
-                          className="px-1.5 py-0.5 rounded text-[9px] font-black tracking-wide"
-                          style={{ background: "rgba(0,20,137,0.3)", color: "#60A5FA", border: "1px solid rgba(0,20,137,0.5)" }}
+                  {/* Merchant Checklist */}
+                  <div className="flex flex-col gap-2">
+                    {aiMerchants.map((m) => {
+                      const isChecked = checkedMerchants.has(m.id);
+                      return (
+                        <button
+                          key={m.id}
+                          onClick={() => toggleMerchant(m.id)}
+                          className="w-full flex items-center gap-3 rounded-2xl px-4 py-3 text-left transition-all active:scale-95"
+                          style={{
+                            background: isChecked ? "rgba(0,20,137,0.2)" : "rgba(255,255,255,0.04)",
+                            border: isChecked ? `1px solid ${NETS_BLUE}` : "1px solid rgba(255,255,255,0.07)",
+                          }}
                         >
-                          ✦ NETS QR
-                        </div>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
+                          {/* Checkbox */}
+                          <div
+                            className="w-5 h-5 rounded flex-shrink-0 flex items-center justify-center border transition-all"
+                            style={{
+                              background: isChecked ? NETS_BLUE : "transparent",
+                              borderColor: isChecked ? NETS_BLUE : "rgba(255,255,255,0.25)",
+                            }}
+                          >
+                            {isChecked && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                          </div>
 
-              {/* Start Button */}
-              <button
-                className="w-full mt-5 py-4 rounded-2xl text-white font-black text-sm flex items-center justify-center gap-2 active:scale-95 transition-transform"
-                style={{ background: "linear-gradient(135deg, #10B981, #059669)", boxShadow: "0 4px 20px rgba(16,185,129,0.35)" }}
-              >
-                Start This Itinerary →
-              </button>
+                          {/* Icon */}
+                          <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0" style={{ background: "rgba(255,255,255,0.08)" }}>
+                            {m.icon}
+                          </div>
+
+                          {/* Info */}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-white font-bold text-sm truncate">{m.name}</p>
+                            <div className="flex items-center gap-1.5 mt-0.5">
+                              <span className="text-gray-400 text-xs">{m.category}</span>
+                              <span className="text-gray-600">·</span>
+                              <span className="text-yellow-400 text-xs">★ {m.rating}</span>
+                            </div>
+                          </div>
+
+                          {/* Price + NETS badge */}
+                          <div className="flex flex-col items-end gap-1 flex-shrink-0">
+                            <p className="font-black text-sm" style={{ color: NETS_RED }}>฿{m.priceBaht}</p>
+                            <div className="px-1.5 py-0.5 rounded text-[9px] font-black tracking-wide" style={{ background: "rgba(0,20,137,0.3)", color: "#60A5FA", border: "1px solid rgba(0,20,137,0.5)" }}>
+                              ✦ NETS QR
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-3 mt-5">
+                    <button
+                      onClick={() => { setAiStep("prompt"); setAiResult(null); setCheckedMerchants(new Set()); }}
+                      className="flex-shrink-0 px-4 py-3 rounded-2xl text-sm font-bold glass border border-white/10 text-white"
+                    >
+                      Regenerate
+                    </button>
+                    <button
+                      className="flex-1 py-3 rounded-2xl text-white font-black text-sm flex items-center justify-center gap-2 active:scale-95 transition-transform"
+                      style={{ background: "linear-gradient(135deg, #10B981, #059669)", boxShadow: "0 4px 20px rgba(16,185,129,0.35)" }}
+                    >
+                      Start This Itinerary →
+                    </button>
+                  </div>
+
+                  <p className="text-center text-gray-600 text-[10px] mt-3">Generated by DeepSeek AI · Not financial advice</p>
+                </>
+              )}
+
             </div>
           </div>
         </div>
