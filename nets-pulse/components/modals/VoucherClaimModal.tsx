@@ -32,13 +32,13 @@ export default function VoucherClaimModal({ merchant, discount, onClose }: Vouch
         <div
           className="relative rounded-3xl overflow-hidden p-6 text-center"
           style={{
-            background: "linear-gradient(135deg, #001035 0%, #001489 60%, #07101F 100%)",
-            border: "1px solid rgba(0,20,137,0.5)",
-            boxShadow: "0 0 40px rgba(0,20,137,0.35), 0 0 80px rgba(234,0,41,0.08)",
+            background: "linear-gradient(135deg, #001035 0%, #003DA5 60%, #07101F 100%)",
+            border: "1px solid rgba(0,61,165,0.5)",
+            boxShadow: "0 0 40px rgba(0,61,165,0.35), 0 0 80px rgba(228,0,43,0.08)",
           }}
         >
           {/* Decorative top bar */}
-          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "linear-gradient(90deg, #EA0029, #001489)" }} />
+          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "linear-gradient(90deg, #E4002B, #003DA5)" }} />
 
           {/* Icon */}
           <div
@@ -62,7 +62,7 @@ export default function VoucherClaimModal({ merchant, discount, onClose }: Vouch
               onClick={handleCopy}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-90"
               style={{
-                background: copied ? "#10B981" : "#001489",
+                background: copied ? "#10B981" : "#003DA5",
                 color: "#fff",
               }}
             >

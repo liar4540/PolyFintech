@@ -17,8 +17,8 @@ export default function SmartReceiptModal({ merchantName, location = "Bangkok, T
           className="relative rounded-3xl overflow-hidden p-6 text-center"
           style={{
             background: "linear-gradient(135deg, #0f0010 0%, #011835 40%, #001a08 100%)",
-            border: "1px solid rgba(234,0,41,0.4)",
-            boxShadow: "0 0 40px rgba(234,0,41,0.25), 0 0 80px rgba(16,185,129,0.12)",
+            border: "1px solid rgba(228,0,43,0.4)",
+            boxShadow: "0 0 40px rgba(228,0,43,0.25), 0 0 80px rgba(16,185,129,0.12)",
           }}
         >
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -59,7 +59,7 @@ export default function SmartReceiptModal({ merchantName, location = "Bangkok, T
                 </div>
               ))}
             </div>
-            <div className="text-[#EA0029] text-xs font-semibold">#NETSPulse #SGPayAnywhere</div>
+            <div className="text-[#E4002B] text-xs font-semibold">#NETSPulse #SGPayAnywhere</div>
           </div>
         </div>
 
@@ -73,7 +73,7 @@ export default function SmartReceiptModal({ merchantName, location = "Bangkok, T
           <button
             onClick={() => alert("Shared to your story! Flex max 💪")}
             className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl text-white text-sm font-semibold active:scale-95 transition-transform"
-            style={{ background: "linear-gradient(135deg, #EA0029, #10B981)" }}
+            style={{ background: "linear-gradient(135deg, #E4002B, #10B981)" }}
           >
             <Share2 size={16} /> Share
           </button>

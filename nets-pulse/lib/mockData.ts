@@ -39,7 +39,7 @@ export const RECENT_TRANSACTIONS = [
 
 export const SPENDING_BREAKDOWN = [
   { label: "Food",      amount: 380, color: "#F5A623" },
-  { label: "Shopping",  amount: 240, color: "#EA0029" },
+  { label: "Shopping",  amount: 240, color: "#E4002B" },
   { label: "Transport", amount: 120, color: "#3B82F6" },
   { label: "Coffee",    amount: 95,  color: "#F59E0B" },
   { label: "Music",     amount: 60,  color: "#10B981" },
@@ -62,7 +62,7 @@ export const MERCHANTS = [
     name: "Chagee Siam Square",
     category: "Bubble Tea",
     lat: 200, lng: 180,
-    glow: "#EA0029",
+    glow: "#E4002B",
     pulse: "48 Singaporean travelers scanned NETS QR here in the last 3 hours.",
     successRate: 99,
     score: { student: 82, hiddenGem: 45, peak: "2–4 PM" },
@@ -107,8 +107,8 @@ export const AI_ITINERARY_MERCHANTS = [
 ];
 
 export const SPLIT_GROUP = [
-  { id: 1, name: "Kai",  avatar: "K",  color: "#001489", owes: 15.00, settled: false, method: null as string | null, settledAt: null as string | null, note: undefined as string | undefined },
-  { id: 2, name: "Ryan", avatar: "R",  color: "#EA0029", owes: 12.50, settled: false, method: null as string | null, settledAt: null as string | null, note: undefined as string | undefined },
+  { id: 1, name: "Kai",  avatar: "K",  color: "#003DA5", owes: 15.00, settled: false, method: null as string | null, settledAt: null as string | null, note: undefined as string | undefined },
+  { id: 2, name: "Ryan", avatar: "R",  color: "#E4002B", owes: 12.50, settled: false, method: null as string | null, settledAt: null as string | null, note: undefined as string | undefined },
   { id: 3, name: "Mia",  avatar: "M",  color: "#10B981", owes: 10.00, settled: true,  method: "PayNow" as string | null,   settledAt: "8:51 PM" as string | null, note: undefined as string | undefined },
   { id: 4, name: "Jess", avatar: "J",  color: "#F59E0B", owes: 8.00,  settled: true,  method: "Cash" as string | null,     settledAt: "9:04 PM" as string | null, note: "Paid at the restaurant!" as string | undefined },
 ];
@@ -122,7 +122,7 @@ export const GOALS = [
     saved: 2100,
     target: 3500,
     streak: 12,
-    color: "#EA0029",
+    color: "#E4002B",
   },
   {
     id: "macbook",

@@ -12,7 +12,7 @@ const slides = [
   {
     id: 0,
     bg: "from-[#0E0005] via-[#011835] to-[#0E0005]",
-    accent: "#EA0029",
+    accent: "#E4002B",
     content: (stats: typeof WRAPPED_STATS) => (
       <div className="flex flex-col items-center justify-center h-full text-center gap-6 px-6">
         <div className="text-6xl animate-bounce">🎵</div>
@@ -30,7 +30,7 @@ const slides = [
   {
     id: 1,
     bg: "from-[#0a0a0e] via-[#011835] to-[#0a0a0e]",
-    accent: "#EA0029",
+    accent: "#E4002B",
     content: (stats: typeof WRAPPED_STATS) => (
       <div className="flex flex-col items-center justify-center h-full text-center gap-6 px-6">
         <div className="text-7xl">🧋</div>
@@ -39,7 +39,7 @@ const slides = [
           <h2 className="text-5xl font-black text-white">{stats.topMerchant}</h2>
           <p className="text-[#F78DA7] mt-2 text-xl">{stats.topMerchantVisits} visits</p>
         </div>
-        <div className="glass rounded-2xl px-6 py-3 border border-[#EA0029]/30">
+        <div className="glass rounded-2xl px-6 py-3 border border-[#E4002B]/30">
           <p className="text-gray-300 text-sm">You&apos;re literally a regular. They probably know your order liao. ☕</p>
         </div>
       </div>
@@ -110,7 +110,7 @@ const slides = [
           </div>
         </div>
         <button
-          className="flex items-center gap-2 bg-gradient-to-r from-[#EA0029] to-[#10B981] text-white font-bold px-8 py-3 rounded-full shadow-lg shadow-red-500/30 active:scale-95 transition-transform"
+          className="flex items-center gap-2 bg-gradient-to-r from-[#E4002B] to-[#10B981] text-white font-bold px-8 py-3 rounded-full shadow-lg shadow-red-500/30 active:scale-95 transition-transform"
           onClick={() => alert("Screenshot shared! (Demo mode) 📸")}
         >
           <Share2 size={16} />

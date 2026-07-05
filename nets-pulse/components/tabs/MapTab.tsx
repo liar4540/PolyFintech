@@ -8,14 +8,14 @@ import SmartReceiptModal from "@/components/modals/SmartReceiptModal";
 type FilterType = "hotspots" | "hiddenGem" | "peakHours";
 
 const FILTER_CONFIG: Record<FilterType, { label: string; glow: string }> = {
-  hotspots:  { label: "🔥 Hot Spots",   glow: "#EA0029" },
+  hotspots:  { label: "🔥 Hot Spots",   glow: "#E4002B" },
   hiddenGem: { label: "💎 Hidden Gems", glow: "#10B981" },
   peakHours: { label: "⏰ Peak Hours",  glow: "#F59E0B" },
 };
 
 // ─── NETS blue ────────────────────────────────────────────────
-const NETS_BLUE  = "#001489";
-const NETS_RED   = "#EA0029";
+const NETS_BLUE  = "#003DA5";
+const NETS_RED   = "#E4002B";
 
 export default function MapTab() {
   const [activeFilter, setActiveFilter] = useState<FilterType>("hotspots");
@@ -196,7 +196,7 @@ export default function MapTab() {
                     {aiStep === "result" ? aiResult?.title : "Plan My Day"}
                   </h2>
                   <p className="text-gray-400 text-xs mt-0.5">
-                    {aiStep === "result" ? aiResult?.subtitle : "Powered by DeepSeek AI · NETS QR only"}
+                    {aiStep === "result" ? aiResult?.subtitle : "Powered by GENZ AI · NETS QR only"}
                   </p>
                 </div>
                 <button
@@ -213,11 +213,11 @@ export default function MapTab() {
                 <div className="flex flex-col gap-4">
                   <div
                     className="rounded-2xl p-4"
-                    style={{ background: "rgba(0,20,137,0.12)", border: "1px solid rgba(0,20,137,0.35)" }}
+                    style={{ background: "rgba(0,61,165,0.12)", border: "1px solid rgba(0,61,165,0.35)" }}
                   >
                     <div className="flex items-center gap-2 mb-3">
                       <Bot size={14} style={{ color: NETS_BLUE }} />
-                      <p className="text-blue-300 text-xs font-semibold">Tell DeepSeek where you want to go</p>
+                      <p className="text-blue-300 text-xs font-semibold">Tell GENZ where you want to go</p>
                     </div>
 
                     {/* Location */}
@@ -285,9 +285,9 @@ export default function MapTab() {
                     onClick={generateItinerary}
                     disabled={!aiLocation.trim()}
                     className="w-full py-4 rounded-2xl text-white font-black text-sm flex items-center justify-center gap-2 active:scale-95 transition-transform disabled:opacity-40"
-                    style={{ background: `linear-gradient(135deg, ${NETS_BLUE}, #0022CC)`, boxShadow: "0 4px 20px rgba(0,20,137,0.4)" }}
+                    style={{ background: `linear-gradient(135deg, ${NETS_BLUE}, #0022CC)`, boxShadow: "0 4px 20px rgba(0,61,165,0.4)" }}
                   >
-                    <Wand2 size={16} /> Generate with DeepSeek AI
+                    <Wand2 size={16} /> Generate with GENZ AI
                   </button>
 
                   <p className="text-center text-gray-600 text-[10px]">AI-generated · Merchants may vary · Always verify NETS QR acceptance</p>
@@ -304,7 +304,7 @@ export default function MapTab() {
                     <Loader2 size={14} className="absolute -top-1 -right-1 text-white animate-spin" />
                   </div>
                   <div className="text-center">
-                    <p className="text-white font-black text-base">DeepSeek is thinking...</p>
+                    <p className="text-white font-black text-base">GENZ is thinking...</p>
                     <p className="text-gray-400 text-xs mt-1">Finding the best NETS QR spots in {aiLocation}</p>
                   </div>
                   <div className="flex gap-1.5 mt-2">
@@ -344,7 +344,7 @@ export default function MapTab() {
                   {/* Budget bar */}
                   <div
                     className="rounded-2xl px-4 py-3 mb-4 flex items-center justify-between"
-                    style={{ background: "rgba(0,20,137,0.25)", border: "1px solid rgba(0,20,137,0.5)" }}
+                    style={{ background: "rgba(0,61,165,0.25)", border: "1px solid rgba(0,61,165,0.5)" }}
                   >
                     <p className="text-white text-xs font-semibold">Total budget</p>
                     <p className="text-white font-black text-sm">
@@ -362,7 +362,7 @@ export default function MapTab() {
                           onClick={() => toggleMerchant(m.id)}
                           className="w-full flex items-center gap-3 rounded-2xl px-4 py-3 text-left transition-all active:scale-95"
                           style={{
-                            background: isChecked ? "rgba(0,20,137,0.2)" : "rgba(255,255,255,0.04)",
+                            background: isChecked ? "rgba(0,61,165,0.2)" : "rgba(255,255,255,0.04)",
                             border: isChecked ? `1px solid ${NETS_BLUE}` : "1px solid rgba(255,255,255,0.07)",
                           }}
                         >
@@ -397,7 +397,7 @@ export default function MapTab() {
                             <p className="font-black text-sm" style={{ color: NETS_RED }}>
                               {currencySymbol}{(m.priceLocal !== undefined ? m.priceLocal : (m.priceBaht || 0)).toLocaleString()}
                             </p>
-                            <div className="px-1.5 py-0.5 rounded text-[9px] font-black tracking-wide" style={{ background: "rgba(0,20,137,0.3)", color: "#60A5FA", border: "1px solid rgba(0,20,137,0.5)" }}>
+                            <div className="px-1.5 py-0.5 rounded text-[9px] font-black tracking-wide" style={{ background: "rgba(0,61,165,0.3)", color: "#60A5FA", border: "1px solid rgba(0,61,165,0.5)" }}>
                               ✦ NETS QR
                             </div>
                           </div>
@@ -423,7 +423,7 @@ export default function MapTab() {
                     </button>
                   </div>
 
-                  <p className="text-center text-gray-600 text-[10px] mt-3">Generated by DeepSeek AI · Not financial advice</p>
+                  <p className="text-center text-gray-600 text-[10px] mt-3">Generated by GENZ AI · Not financial advice</p>
                 </>
               )}
 
@@ -433,7 +433,7 @@ export default function MapTab() {
                   {/* Progress Stats bar */}
                   <div
                     className="rounded-2xl px-4 py-3 mb-4"
-                    style={{ background: "rgba(0,20,137,0.25)", border: "1px solid rgba(0,20,137,0.5)" }}
+                    style={{ background: "rgba(0,61,165,0.25)", border: "1px solid rgba(0,61,165,0.5)" }}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <p className="text-white text-xs font-semibold">
@@ -486,7 +486,7 @@ export default function MapTab() {
                             className="rounded-2xl px-4 py-3 transition-all"
                             style={{
                               background: isActive
-                                ? "rgba(0,20,137,0.15)"
+                                ? "rgba(0,61,165,0.15)"
                                 : isCompleted
                                 ? "rgba(16,185,129,0.05)"
                                 : "rgba(255,255,255,0.02)",
@@ -522,7 +522,7 @@ export default function MapTab() {
                                   className="w-full py-2.5 rounded-xl text-white text-xs font-black flex items-center justify-center gap-2 active:scale-95 transition-all"
                                   style={{
                                     background: `linear-gradient(135deg, ${NETS_BLUE}, #0022CC)`,
-                                    boxShadow: "0 4px 15px rgba(0,20,137,0.4)"
+                                    boxShadow: "0 4px 15px rgba(0,61,165,0.4)"
                                   }}
                                 >
                                   {isCurrentPaying ? (
@@ -696,18 +696,18 @@ export default function MapTab() {
                 >
                   <svg viewBox="0 0 80 80" width={64} height={64}>
                     {/* Corner squares */}
-                    <rect x="4" y="4"  width="22" height="22" rx="3" fill="none" stroke="#001489" strokeWidth="3"/>
-                    <rect x="8" y="8"  width="14" height="14" rx="1" fill="#001489"/>
-                    <rect x="54" y="4" width="22" height="22" rx="3" fill="none" stroke="#001489" strokeWidth="3"/>
-                    <rect x="58" y="8" width="14" height="14" rx="1" fill="#001489"/>
-                    <rect x="4" y="54" width="22" height="22" rx="3" fill="none" stroke="#001489" strokeWidth="3"/>
-                    <rect x="8" y="58" width="14" height="14" rx="1" fill="#001489"/>
+                    <rect x="4" y="4"  width="22" height="22" rx="3" fill="none" stroke="#003DA5" strokeWidth="3"/>
+                    <rect x="8" y="8"  width="14" height="14" rx="1" fill="#003DA5"/>
+                    <rect x="54" y="4" width="22" height="22" rx="3" fill="none" stroke="#003DA5" strokeWidth="3"/>
+                    <rect x="58" y="8" width="14" height="14" rx="1" fill="#003DA5"/>
+                    <rect x="4" y="54" width="22" height="22" rx="3" fill="none" stroke="#003DA5" strokeWidth="3"/>
+                    <rect x="8" y="58" width="14" height="14" rx="1" fill="#003DA5"/>
                     {/* Data dots */}
                     {[30,33,36,39,42,45,48,51,54].map((x) => [30,33,36,39,42].map((y) => (
-                      <rect key={`${x}-${y}`} x={x} y={y} width="2" height="2" fill={(x+y)%5===0 ? "#001489" : (x+y)%3===0 ? "#EA0029" : "transparent"} />
+                      <rect key={`${x}-${y}`} x={x} y={y} width="2" height="2" fill={(x+y)%5===0 ? "#003DA5" : (x+y)%3===0 ? "#E4002B" : "transparent"} />
                     )))}
                     {/* Center logo */}
-                    <rect x="33" y="33" width="14" height="14" rx="2" fill="#001489"/>
+                    <rect x="33" y="33" width="14" height="14" rx="2" fill="#003DA5"/>
                     <text x="40" y="43" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">N</text>
                   </svg>
                 </div>
@@ -744,7 +744,7 @@ export default function MapTab() {
                   <span className="text-white font-bold text-sm">Cloned Smart Ledger</span>
                   <span
                     className="px-2 py-0.5 rounded text-[9px] font-black tracking-widest"
-                    style={{ background: "rgba(234,0,41,0.15)", color: NETS_RED, border: `1px solid ${NETS_RED}44` }}
+                    style={{ background: "rgba(228,0,43,0.15)", color: NETS_RED, border: `1px solid ${NETS_RED}44` }}
                   >
                     DIGITIZED
                   </span>
@@ -840,7 +840,7 @@ export default function MapTab() {
                 {totalOwed > 0 && (
                   <span
                     className="px-3 py-1 rounded-full text-xs font-bold"
-                    style={{ background: "rgba(234,0,41,0.15)", color: NETS_RED, border: `1px solid ${NETS_RED}33` }}
+                    style={{ background: "rgba(228,0,43,0.15)", color: NETS_RED, border: `1px solid ${NETS_RED}33` }}
                   >
                     ${totalOwed.toFixed(2)} pending
                   </span>
@@ -921,7 +921,7 @@ export default function MapTab() {
                 className="w-full py-4 rounded-2xl text-white font-black text-sm flex items-center justify-center gap-2 active:scale-95 transition-transform"
                 style={{
                   background: `linear-gradient(135deg, ${NETS_BLUE}, #0022CC)`,
-                  boxShadow: "0 4px 20px rgba(0,20,137,0.45)",
+                  boxShadow: "0 4px 20px rgba(0,61,165,0.45)",
                 }}
               >
                 <CreditCard size={16} /> Settle via Bank-Tier Direct Transfer →
@@ -977,8 +977,8 @@ export default function MapTab() {
           style={{ height: 240, background: "linear-gradient(135deg, #070E18 0%, #0B1525 100%)" }}
         >
           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 380 240">
-            {[40,80,120,160,200].map((y) => <line key={`h${y}`} x1="0" y1={y} x2="380" y2={y} stroke="rgba(0,20,137,0.12)" strokeWidth="1" />)}
-            {[50,100,150,200,250,300,350].map((x) => <line key={`v${x}`} x1={x} y1="0" x2={x} y2="240" stroke="rgba(0,20,137,0.12)" strokeWidth="1" />)}
+            {[40,80,120,160,200].map((y) => <line key={`h${y}`} x1="0" y1={y} x2="380" y2={y} stroke="rgba(0,61,165,0.12)" strokeWidth="1" />)}
+            {[50,100,150,200,250,300,350].map((x) => <line key={`v${x}`} x1={x} y1="0" x2={x} y2="240" stroke="rgba(0,61,165,0.12)" strokeWidth="1" />)}
             {([[0,80,380,80],[0,170,380,170],[190,0,190,240],[80,0,80,240],[310,0,310,240]] as number[][]).map(([x1,y1,x2,y2],i) => (
               <line key={`r${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(255,255,255,0.04)" strokeWidth="8" />
             ))}

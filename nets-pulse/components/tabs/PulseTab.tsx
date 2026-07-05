@@ -23,12 +23,12 @@ export default function PulseTab() {
         <div>
           <p className="text-gray-400 text-sm">Good morning,</p>
           <h1 className="text-white font-black text-2xl flex items-center gap-2">
-            {USER.name} <span className="text-[#EA0029]">✦</span>
+            {USER.name} <span className="text-[#E4002B]">✦</span>
           </h1>
         </div>
         <button className="relative w-10 h-10 glass rounded-full border border-white/10 flex items-center justify-center">
           <Bell size={18} className="text-white" />
-          <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#EA0029]" />
+          <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#E4002B]" />
         </button>
       </div>
 
@@ -36,11 +36,11 @@ export default function PulseTab() {
       <div
         className="rounded-3xl p-5 relative overflow-hidden"
         style={{
-          background: "linear-gradient(135deg, #001035 0%, #001489 50%, #0a1220 100%)",
-          boxShadow: "0 8px 32px rgba(0,20,137,0.35)",
+          background: "linear-gradient(135deg, #001035 0%, #003DA5 50%, #0a1220 100%)",
+          boxShadow: "0 8px 32px rgba(0,61,165,0.35)",
         }}
       >
-        <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full" style={{ background: "radial-gradient(circle, rgba(0,20,137,0.5) 0%, transparent 70%)" }} />
+        <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full" style={{ background: "radial-gradient(circle, rgba(0,61,165,0.5) 0%, transparent 70%)" }} />
         <p className="text-blue-200 text-xs uppercase tracking-widest mb-1 opacity-70">Total Balance</p>
         <div className="flex items-baseline gap-2 mb-1">
           <h2 className="text-white font-black text-4xl">${USER.balance.toLocaleString()}</h2>
@@ -68,7 +68,7 @@ export default function PulseTab() {
       {/* Streak Banner */}
       <div
         className="rounded-2xl px-4 py-3 flex items-center gap-3 relative overflow-hidden"
-        style={{ background: "linear-gradient(135deg, rgba(16,185,129,0.15), rgba(234,0,41,0.08))", border: "1px solid rgba(16,185,129,0.3)" }}
+        style={{ background: "linear-gradient(135deg, rgba(16,185,129,0.15), rgba(228,0,43,0.08))", border: "1px solid rgba(16,185,129,0.3)" }}
       >
         <div className="text-2xl animate-fire">🔥</div>
         <div className="flex-1">
@@ -81,7 +81,7 @@ export default function PulseTab() {
       {/* Quick Actions */}
       <div className="grid grid-cols-4 gap-3">
         {[
-          { icon: Send,           label: "Send",    bg: "#001489", action: () => setActiveModal("send") },
+          { icon: Send,           label: "Send",    bg: "#003DA5", action: () => setActiveModal("send") },
           { icon: Download,       label: "Receive", bg: "#10B981", action: () => setActiveModal("receive") },
           { icon: Plus,           label: "Top Up",  bg: "#F59E0B", action: () => setActiveModal("topup") },
           { icon: MoreHorizontal, label: "More",    bg: "#374151", action: () => {} },
@@ -98,7 +98,7 @@ export default function PulseTab() {
       {/* Cross-Border Pulse Card */}
       <div
         className="rounded-2xl p-4"
-        style={{ background: "linear-gradient(135deg, rgba(234,0,41,0.10), rgba(16,185,129,0.08))", border: "1px solid rgba(234,0,41,0.2)" }}
+        style={{ background: "linear-gradient(135deg, rgba(228,0,43,0.10), rgba(16,185,129,0.08))", border: "1px solid rgba(228,0,43,0.2)" }}
       >
         <div className="flex items-center gap-2 mb-2">
           <div className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
@@ -114,14 +114,14 @@ export default function PulseTab() {
       <div className="glass rounded-3xl p-4 border border-white/5">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-white font-bold text-sm">Weekly Spending</h3>
-          <button className="text-[#EA0029] text-xs font-semibold">This week</button>
+          <button className="text-[#E4002B] text-xs font-semibold">This week</button>
         </div>
         <div className="flex items-end gap-2 h-20">
           {WEEKLY_SPENDING.map((d, i) => (
             <div key={d.day} className="flex-1 flex flex-col items-center gap-1">
               <div
                 className="w-full rounded-t-lg transition-all"
-                style={{ height: `${(d.amount / max) * 100}%`, background: i === 4 ? "#EA0029" : "rgba(234,0,41,0.25)" }}
+                style={{ height: `${(d.amount / max) * 100}%`, background: i === 4 ? "#E4002B" : "rgba(228,0,43,0.25)" }}
               />
               <span className="text-gray-500 text-[10px]">{d.day}</span>
             </div>
@@ -130,7 +130,7 @@ export default function PulseTab() {
         <svg className="w-full mt-1" viewBox="0 0 300 40" preserveAspectRatio="none" style={{ height: 30 }}>
           <defs>
             <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#EA0029" />
+              <stop offset="0%" stopColor="#E4002B" />
               <stop offset="100%" stopColor="#10B981" />
             </linearGradient>
           </defs>
@@ -149,7 +149,7 @@ export default function PulseTab() {
       <div>
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-white font-bold text-sm">Recent Activity</h3>
-          <button className="text-[#EA0029] text-xs font-semibold">See all</button>
+          <button className="text-[#E4002B] text-xs font-semibold">See all</button>
         </div>
         <div className="flex flex-col gap-2">
           {RECENT_TRANSACTIONS.slice(0, 3).map((tx) => (

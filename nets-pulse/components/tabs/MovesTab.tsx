@@ -55,7 +55,7 @@ export default function MovesTab() {
             <button
               onClick={() => { setSearchOpen((o) => !o); setSearchQuery(""); }}
               className="w-9 h-9 glass rounded-full border border-white/10 flex items-center justify-center transition-all"
-              style={{ background: searchOpen ? "#EA0029" : undefined }}
+              style={{ background: searchOpen ? "#E4002B" : undefined }}
             >
               <Search size={16} className="text-white" />
             </button>
@@ -91,8 +91,8 @@ export default function MovesTab() {
           onClick={() => setShowCapsule(true)}
           className="w-full rounded-2xl p-4 text-left active:scale-95 transition-transform relative overflow-hidden"
           style={{
-            background: "linear-gradient(135deg, rgba(234,0,41,0.15) 0%, rgba(16,185,129,0.08) 100%)",
-            border: "1px solid rgba(234,0,41,0.25)",
+            background: "linear-gradient(135deg, rgba(228,0,43,0.15) 0%, rgba(16,185,129,0.08) 100%)",
+            border: "1px solid rgba(228,0,43,0.25)",
           }}
         >
           <div className="flex items-center gap-3">
@@ -102,7 +102,7 @@ export default function MovesTab() {
               <p className="text-white font-bold text-sm">Bangkok Graduation Trip 2026</p>
               <p className="text-gray-400 text-xs">22–26 Jun · $312.50 SGD</p>
             </div>
-            <ChevronRight size={16} className="text-[#EA0029]" />
+            <ChevronRight size={16} className="text-[#E4002B]" />
           </div>
         </button>
 
@@ -155,7 +155,7 @@ export default function MovesTab() {
               onClick={() => setActiveCategory(cat)}
               className="flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all active:scale-90"
               style={{
-                background: activeCategory === cat ? "#EA0029" : "rgba(255,255,255,0.07)",
+                background: activeCategory === cat ? "#E4002B" : "rgba(255,255,255,0.07)",
                 color: activeCategory === cat ? "#fff" : "#999",
                 border: activeCategory === cat ? "none" : "1px solid rgba(255,255,255,0.08)",
               }}
