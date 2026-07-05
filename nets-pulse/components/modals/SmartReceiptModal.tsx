@@ -4,10 +4,12 @@ import { X, Share2, Download, Sparkles } from "lucide-react";
 
 interface SmartReceiptModalProps {
   merchantName: string;
+  location?: string;
   onClose: () => void;
 }
 
-export default function SmartReceiptModal({ merchantName, onClose }: SmartReceiptModalProps) {
+export default function SmartReceiptModal({ merchantName, location = "Bangkok, Thailand", onClose }: SmartReceiptModalProps) {
+  const cityName = location.split(",")[0].trim();
   return (
     <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in px-5">
       <div className="w-full max-w-xs animate-fade-scale">
@@ -39,7 +41,7 @@ export default function SmartReceiptModal({ merchantName, onClose }: SmartReceip
 
             <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}>
               <p className="text-gray-300 text-xs uppercase tracking-widest mb-1">You just unlocked</p>
-              <p className="text-white font-bold text-lg">Bangkok&apos;s #1 Trending</p>
+              <p className="text-white font-bold text-lg">{cityName}&apos;s #1 Trending</p>
               <p className="text-[#10B981] font-black text-xl">Hidden Café</p>
               <div className="mt-2 text-xs text-gray-400">📍 {merchantName}</div>
             </div>

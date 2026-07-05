@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Filter, Bot, Sparkles, X, ChevronUp, ChevronDown, Clock, Star, Gem, Flame, Share2, CreditCard, RotateCcw, CheckCircle2, Loader2, MapPin, Wand2 } from "lucide-react";
+import { Filter, Bot, Sparkles, X, ChevronUp, ChevronDown, Clock, Star, Gem, Flame, Share2, CreditCard, RotateCcw, CheckCircle2, Loader2, MapPin, Wand2, Download } from "lucide-react";
 import { MERCHANTS, SPLIT_GROUP } from "@/lib/mockData";
 import SmartReceiptModal from "@/components/modals/SmartReceiptModal";
 
@@ -31,15 +31,31 @@ export default function MapTab() {
   const [checkedMerchants, setCheckedMerchants] = useState<Set<number>>(new Set());
 
   // ─── AI Itinerary state ──────────────────────────────────────
-  type AIMerchant = { id: number; icon: string; name: string; category: string; rating: number; priceBaht: number; netsQr?: boolean };
-  type AIResult   = { title: string; subtitle: string; totalBudgetNote: string; merchants: AIMerchant[] };
+  type AIMerchant = { id: number; icon: string; name: string; category: string; rating: number; priceBaht?: number; priceLocal?: number; netsQr?: boolean };
+  type AIResult   = { 
+    title: string; 
+    subtitle: string; 
+    totalBudgetNote: string; 
+    currencySymbol?: string; 
+    currencyCode?: string; 
+    rateToSGD?: number; 
+    merchants: AIMerchant[] 
+  };
 
-  const [aiStep, setAiStep]       = useState<"prompt" | "loading" | "result" | "error">("prompt");
+  const [aiStep, setAiStep]       = useState<"prompt" | "loading" | "result" | "error" | "active" | "completed">("prompt");
   const [aiResult, setAiResult]   = useState<AIResult | null>(null);
   const [aiError, setAiError]     = useState("");
   const [aiLocation, setAiLocation] = useState("Bangkok, Thailand");
   const [aiBudget, setAiBudget]   = useState("SGD 60");
   const [aiPrefs, setAiPrefs]     = useState<string[]>(["food", "drinks", "dessert"]);
+
+  // Active Journey States
+  const [activeStopIndex, setActiveStopIndex] = useState(0);
+  const [completedStops, setCompletedStops] = useState<Set<number>>(new Set());
+  const [totalSpentBaht, setTotalSpentBaht] = useState(0);
+  const [isPaying, setIsPaying] = useState(false);
+  const [payingStopId, setPayingStopId] = useState<number | null>(null);
+  const [splitBillAmountBaht, setSplitBillAmountBaht] = useState(1200);
 
   const PREF_OPTIONS = ["food", "drinks", "dessert", "shopping", "culture", "nightlife"];
 
@@ -70,9 +86,59 @@ export default function MapTab() {
     }
   };
 
+  const currencySymbol = aiResult?.currencySymbol || "฿";
+  const currencyCode = aiResult?.currencyCode || "THB";
+  const exchangeRate = aiResult?.rateToSGD || 28;
+
   const aiMerchants = aiResult?.merchants ?? [];
-  const aiTotalBaht = aiMerchants.reduce((s, m) => s + m.priceBaht, 0);
-  const aiTotalSGD  = (aiTotalBaht / 28).toFixed(0);
+  const aiTotalBaht = aiMerchants.reduce((s, m) => s + (m.priceLocal !== undefined ? m.priceLocal : (m.priceBaht || 0)), 0);
+  const aiTotalSGD  = (aiTotalBaht / exchangeRate).toFixed(0);
+
+  const activeStops = aiMerchants.filter((m) => checkedMerchants.size === 0 || checkedMerchants.has(m.id));
+  const activeStopsTotalBaht = activeStops.reduce((s, m) => s + (m.priceLocal !== undefined ? m.priceLocal : (m.priceBaht || 0)), 0);
+
+  const handleStartItinerary = () => {
+    setActiveStopIndex(0);
+    setCompletedStops(new Set());
+    setTotalSpentBaht(0);
+    setAiStep("active");
+  };
+
+  const handlePayStop = (stopId: number, priceBaht: number, name: string) => {
+    setIsPaying(true);
+    setPayingStopId(stopId);
+    
+    setTimeout(() => {
+      setIsPaying(false);
+      setPayingStopId(null);
+      
+      setCompletedStops((prev) => {
+        const next = new Set(prev);
+        next.add(stopId);
+        return next;
+      });
+      
+      setTotalSpentBaht((prev) => prev + priceBaht);
+      
+      setSelectedMerchant({
+        id: "mock-stop",
+        name: name,
+        category: "Itinerary Stop",
+        lat: 190, lng: 120,
+        glow: "#10B981",
+        pulse: `Successfully paid ${currencySymbol}${priceBaht} via NETS QR.`,
+        successRate: 100,
+        score: { student: 90, hiddenGem: 90, peak: "Now" }
+      });
+      setShowReceipt(true);
+      
+      if (activeStopIndex < activeStops.length - 1) {
+        setActiveStopIndex((prev) => prev + 1);
+      } else {
+        setAiStep("completed");
+      }
+    }, 1500);
+  };
 
   const handleSettle = () => {
     setSplitGroup((g) => g.map((m) => ({ ...m, settled: true, method: "Bank Transfer" as string | null, settledAt: "Now" as string | null })));
@@ -98,14 +164,21 @@ export default function MapTab() {
   };
 
 
+  const splitBillAmountSGD = splitBillAmountBaht / exchangeRate;
   const totalOwed = splitGroup.filter((m) => !m.settled).reduce((s, m) => s + m.owes, 0);
-  const perPerson = (splitGroup.reduce((s, m) => s + m.owes, 0) + 45.50) / (splitGroup.length + 1);
+  const perPerson = (splitGroup.reduce((s, m) => s + m.owes, 0) + splitBillAmountSGD) / (splitGroup.length + 1);
 
   const glowColor = FILTER_CONFIG[activeFilter].glow;
 
   return (
     <>
-      {showReceipt && <SmartReceiptModal merchantName={selectedMerchant.name} onClose={() => setShowReceipt(false)} />}
+      {showReceipt && (
+        <SmartReceiptModal 
+          merchantName={selectedMerchant.name} 
+          location={itineraryOpen ? aiLocation : "Bangkok, Thailand"} 
+          onClose={() => setShowReceipt(false)} 
+        />
+      )}
 
       {/* ── AI Micro-Itinerary Sheet ─────────────────────────── */}
       {itineraryOpen && (
@@ -275,7 +348,7 @@ export default function MapTab() {
                   >
                     <p className="text-white text-xs font-semibold">Total budget</p>
                     <p className="text-white font-black text-sm">
-                      {aiResult.totalBudgetNote || `฿${aiTotalBaht} ≈ SGD ${aiTotalSGD}`}
+                      {aiResult.totalBudgetNote || `${currencySymbol}${aiTotalBaht.toLocaleString()} ≈ SGD ${aiTotalSGD}`}
                     </p>
                   </div>
 
@@ -321,7 +394,9 @@ export default function MapTab() {
 
                           {/* Price + NETS badge */}
                           <div className="flex flex-col items-end gap-1 flex-shrink-0">
-                            <p className="font-black text-sm" style={{ color: NETS_RED }}>฿{m.priceBaht}</p>
+                            <p className="font-black text-sm" style={{ color: NETS_RED }}>
+                              {currencySymbol}{(m.priceLocal !== undefined ? m.priceLocal : (m.priceBaht || 0)).toLocaleString()}
+                            </p>
                             <div className="px-1.5 py-0.5 rounded text-[9px] font-black tracking-wide" style={{ background: "rgba(0,20,137,0.3)", color: "#60A5FA", border: "1px solid rgba(0,20,137,0.5)" }}>
                               ✦ NETS QR
                             </div>
@@ -340,6 +415,7 @@ export default function MapTab() {
                       Regenerate
                     </button>
                     <button
+                      onClick={handleStartItinerary}
                       className="flex-1 py-3 rounded-2xl text-white font-black text-sm flex items-center justify-center gap-2 active:scale-95 transition-transform"
                       style={{ background: "linear-gradient(135deg, #10B981, #059669)", boxShadow: "0 4px 20px rgba(16,185,129,0.35)" }}
                     >
@@ -349,6 +425,208 @@ export default function MapTab() {
 
                   <p className="text-center text-gray-600 text-[10px] mt-3">Generated by DeepSeek AI · Not financial advice</p>
                 </>
+              )}
+
+              {/* ── ACTIVE JOURNEY ────────────────────────────────── */}
+              {aiStep === "active" && aiResult && (
+                <>
+                  {/* Progress Stats bar */}
+                  <div
+                    className="rounded-2xl px-4 py-3 mb-4"
+                    style={{ background: "rgba(0,20,137,0.25)", border: "1px solid rgba(0,20,137,0.5)" }}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-white text-xs font-semibold">
+                        Progress: Stop {activeStopIndex + 1} of {activeStops.length}
+                      </p>
+                      <p className="text-white font-black text-xs">
+                        {currencySymbol}{totalSpentBaht.toLocaleString()} / {currencySymbol}{activeStopsTotalBaht.toLocaleString()} Spent
+                      </p>
+                    </div>
+                    {/* Progress Bar */}
+                    <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all duration-500"
+                        style={{
+                          width: `${(completedStops.size / activeStops.length) * 100}%`,
+                          background: `linear-gradient(90deg, ${NETS_BLUE}, #10B981)`
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Stops Timeline */}
+                  <div className="flex flex-col gap-4 relative pl-4 border-l border-dashed border-white/20 ml-2.5 my-6">
+                    {activeStops.map((m, index) => {
+                      const isCompleted = completedStops.has(m.id);
+                      const isActive = index === activeStopIndex;
+                      const isFuture = index > activeStopIndex;
+                      const isCurrentPaying = isPaying && payingStopId === m.id;
+
+                      return (
+                        <div key={m.id} className="relative flex flex-col gap-2">
+                          {/* Dot / Indicator */}
+                          <div
+                            className="absolute -left-[25px] top-1.5 w-4 h-4 rounded-full flex items-center justify-center border"
+                            style={{
+                              background: isCompleted ? "#10B981" : isActive ? NETS_RED : "#1f2937",
+                              borderColor: isCompleted ? "#10B981" : isActive ? NETS_RED : "rgba(255,255,255,0.2)",
+                              boxShadow: isActive ? `0 0 10px ${NETS_RED}` : "none",
+                            }}
+                          >
+                            {isCompleted && (
+                              <svg width="8" height="6" viewBox="0 0 8 6" fill="none">
+                                <path d="M1 3L3 5L7 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+                              </svg>
+                            )}
+                          </div>
+
+                          {/* Stop Info Card */}
+                          <div
+                            className="rounded-2xl px-4 py-3 transition-all"
+                            style={{
+                              background: isActive
+                                ? "rgba(0,20,137,0.15)"
+                                : isCompleted
+                                ? "rgba(16,185,129,0.05)"
+                                : "rgba(255,255,255,0.02)",
+                              border: isActive
+                                ? `1px solid ${NETS_BLUE}`
+                                : isCompleted
+                                ? "1px solid rgba(16,185,129,0.2)"
+                                : "1px solid rgba(255,255,255,0.05)",
+                              opacity: isFuture ? 0.5 : 1,
+                            }}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <span className="text-lg">{m.icon}</span>
+                                <div>
+                                  <p className={`font-bold text-sm ${isActive ? "text-white" : "text-gray-300"}`}>
+                                    {m.name}
+                                  </p>
+                                  <p className="text-gray-500 text-xs">{m.category}</p>
+                                </div>
+                              </div>
+                              <p className="font-black text-sm text-gray-300">
+                                {currencySymbol}{(m.priceLocal !== undefined ? m.priceLocal : (m.priceBaht || 0)).toLocaleString()}
+                              </p>
+                            </div>
+
+                            {/* CTAs for Active Stop */}
+                            {isActive && (
+                              <div className="mt-3">
+                                <button
+                                  onClick={() => handlePayStop(m.id, m.priceLocal !== undefined ? m.priceLocal : (m.priceBaht || 0), m.name)}
+                                  disabled={isPaying}
+                                  className="w-full py-2.5 rounded-xl text-white text-xs font-black flex items-center justify-center gap-2 active:scale-95 transition-all"
+                                  style={{
+                                    background: `linear-gradient(135deg, ${NETS_BLUE}, #0022CC)`,
+                                    boxShadow: "0 4px 15px rgba(0,20,137,0.4)"
+                                  }}
+                                >
+                                  {isCurrentPaying ? (
+                                    <>
+                                      <Loader2 size={13} className="animate-spin" />
+                                      Scanning NETS QR...
+                                    </>
+                                  ) : (
+                                    <>
+                                      <CreditCard size={13} />
+                                      Pay {currencySymbol}{(m.priceLocal !== undefined ? m.priceLocal : (m.priceBaht || 0)).toLocaleString()} with NETS QR
+                                    </>
+                                  )}
+                                </button>
+                              </div>
+                            )}
+
+                            {isCompleted && (
+                              <p className="text-[#10B981] text-[10px] font-bold mt-1 flex items-center gap-1">
+                                ✓ Paid via NETS QR
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-3 mt-4">
+                    <button
+                      onClick={() => { setAiStep("result"); }}
+                      className="w-full py-3 rounded-2xl text-xs font-bold glass border border-white/10 text-white active:scale-95 transition-transform"
+                    >
+                      Cancel Journey
+                    </button>
+                  </div>
+                </>
+              )}
+
+              {/* ── JOURNEY COMPLETED ──────────────────────────────── */}
+              {aiStep === "completed" && aiResult && (
+                <div className="flex flex-col items-center text-center py-6 animate-fade-in">
+                  <div className="text-6xl mb-4">🏆</div>
+                  <h2 className="text-white font-black text-2xl mb-1">Journey Completed!</h2>
+                  <p className="text-[#10B981] text-xs font-black uppercase tracking-widest mb-4">
+                    ⚡ 100% NETS QR SUCCESS RATE
+                  </p>
+
+                  <p className="text-gray-300 text-sm max-w-xs mb-6">
+                    Awesome job! You successfully completed your custom itinerary in <strong>{aiLocation}</strong>.
+                  </p>
+
+                  {/* Journey Stats */}
+                  <div className="w-full flex gap-2 mb-6">
+                    {[
+                      { val: `${currencySymbol}${totalSpentBaht.toLocaleString()}`, label: "Total Spent" },
+                      { val: `+10 XP`, label: "Streak Points", highlight: true },
+                      { val: `SGD ${(totalSpentBaht / exchangeRate).toFixed(2)}`, label: "Estimated Savings" }
+                    ].map((s, i) => (
+                      <div
+                        key={i}
+                        className="flex-1 rounded-2xl p-3"
+                        style={{
+                          background: "rgba(255,255,255,0.03)",
+                          border: s.highlight ? `1px solid ${NETS_RED}` : "1px solid rgba(255,255,255,0.07)"
+                        }}
+                      >
+                        <p className={`font-black text-sm ${s.highlight ? "text-[#F78DA7]" : "text-white"}`}>
+                          {s.val}
+                        </p>
+                        <p className="text-gray-500 text-[10px] mt-0.5">{s.label}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="w-full flex flex-col gap-3">
+                    <button
+                      onClick={() => {
+                        setSplitBillAmountBaht(totalSpentBaht);
+                        setSplitOpen(true);
+                        setItineraryOpen(false);
+                      }}
+                      className="w-full py-4 rounded-2xl text-white font-black text-sm flex items-center justify-center gap-2 active:scale-95 transition-transform"
+                      style={{
+                        background: "linear-gradient(135deg, #10B981, #059669)",
+                        boxShadow: "0 4px 20px rgba(16,185,129,0.35)"
+                      }}
+                    >
+                      <Share2 size={16} /> Split Bill with Friends
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setAiStep("prompt");
+                        setAiResult(null);
+                        setCheckedMerchants(new Set());
+                      }}
+                      className="w-full py-3.5 rounded-2xl text-white font-bold text-sm bg-white/10 hover:bg-white/15 border border-white/10 active:scale-95 transition-transform"
+                    >
+                      Back to Map
+                    </button>
+                  </div>
+                </div>
               )}
 
             </div>
@@ -379,7 +657,7 @@ export default function MapTab() {
               style={{ background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.3)" }}
             >
               <p className="text-[#10B981] text-xs font-black uppercase tracking-widest mb-1">✅ Successfully paid</p>
-              <p className="text-white font-bold text-sm">฿1,200 THB (<span className="text-[#10B981]">$45.50 SGD</span>)</p>
+              <p className="text-white font-bold text-sm">฿{splitBillAmountBaht.toLocaleString()} THB (<span className="text-[#10B981]">${splitBillAmountSGD.toFixed(2)} SGD</span>)</p>
               <p className="text-gray-400 text-xs mt-0.5">to <span className="text-white font-semibold">Jeh O Chula</span> via NETS QR</p>
               <div className="flex gap-2 mt-3">
                 {["NETS QR", "Verified", "Instant"].map((tag) => (
@@ -480,13 +758,74 @@ export default function MapTab() {
                 </div>
               )}
               {ledgerOpen && (
-                <div className="px-4 pb-3 flex flex-col gap-1.5 animate-slide-down">
-                  {["Jeh O Chula dinner", "MBK Center shopping", "Chagee x4", "After You café", "MRT transport"].map((item, i) => (
-                    <div key={i} className="flex items-center justify-between py-1">
-                      <p className="text-gray-300 text-xs">{item}</p>
-                      <p className="text-white text-xs font-bold">฿{[450, 680, 140, 220, 78][i]}</p>
+                <div className="px-4 pb-4 flex flex-col gap-3 animate-slide-down text-left">
+                  {/* Ledger Header */}
+                  <div className="text-center pt-2">
+                    <h4 className="text-white font-black text-sm tracking-wider uppercase">Jeh O Chula</h4>
+                    <p className="text-gray-500 text-[10px] mt-0.5">Chulalongkorn Soi 3, Bangkok</p>
+                    <p className="text-gray-500 text-[9px] mt-0.5">Table: 7 · Covers: 4 · 4 Jul 2026</p>
+                  </div>
+
+                  {/* Dashed line */}
+                  <div className="border-t border-dashed border-gray-800 my-1" />
+
+                  {/* Items List */}
+                  <div className="flex flex-col gap-2">
+                    {[
+                      { qty: "1x", name: "Tom Yum Goong", price: 280 },
+                      { qty: "2x", name: "Pad Thai (Shrimp)", price: 360 },
+                      { qty: "1x", name: "Green Curry", price: 220 },
+                      { qty: "2x", name: "Mango Sticky Rice", price: 240 },
+                      { qty: "4x", name: "Thai Iced Tea", price: 240 },
+                    ].map((item, idx) => (
+                      <div key={idx} className="flex items-center justify-between text-xs">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-gray-500 font-medium">{item.qty}</span>
+                          <span className="text-gray-300">{item.name}</span>
+                        </div>
+                        <span className="text-gray-300 font-semibold">฿{item.price}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Dashed line */}
+                  <div className="border-t border-dashed border-gray-800 my-1" />
+
+                  {/* Subtotal / Charges */}
+                  <div className="flex flex-col gap-1.5 text-xs text-gray-500">
+                    <div className="flex justify-between">
+                      <span>Subtotal</span>
+                      <span>฿1,340</span>
                     </div>
-                  ))}
+                    <div className="flex justify-between">
+                      <span>Service Charge (10%)</span>
+                      <span>฿134</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>VAT (7%)</span>
+                      <span>฿94</span>
+                    </div>
+                  </div>
+
+                  {/* Dashed line */}
+                  <div className="border-t border-dashed border-gray-800 my-1" />
+
+                  {/* Total */}
+                  <div className="flex justify-between items-end">
+                    <span className="text-white font-black text-sm uppercase">Total</span>
+                    <div className="text-right">
+                      <span className="font-black text-lg text-[#10B981]">฿1,568</span>
+                      <p className="text-gray-500 text-[10px]">$45.50 SGD</p>
+                    </div>
+                  </div>
+
+                  {/* Save Receipt Button */}
+                  <button
+                    onClick={() => alert("Receipt Saved! 🧾")}
+                    className="w-full mt-2 py-2.5 rounded-xl border border-[#F59E0B]/30 hover:bg-[#F59E0B]/5 active:scale-95 transition-all text-xs font-bold text-[#F59E0B] flex items-center justify-center gap-2"
+                  >
+                    <Download size={12} /> Save Receipt
+                  </button>
                 </div>
               )}
             </div>
