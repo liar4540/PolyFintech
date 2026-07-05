@@ -24,7 +24,7 @@ export default function NETSPulseApp() {
   return (
     <div
       className="flex items-start justify-center min-h-screen w-full py-4"
-      style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.12) 0%, #080810 55%)" }}
+      style={{ background: "radial-gradient(ellipse at 30% 0%, rgba(234,0,41,0.08) 0%, rgba(0,20,137,0.08) 50%, #060C16 70%)" }}
     >
       {/* Mobile frame */}
       <div
@@ -33,10 +33,10 @@ export default function NETSPulseApp() {
           width: 390,
           height: "95dvh",
           maxHeight: 844,
-          background: "#0E0E10",
+          background: "#0A1525",
           borderRadius: 40,
           border: "1px solid rgba(255,255,255,0.08)",
-          boxShadow: "0 32px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(124,58,237,0.08)",
+          boxShadow: "0 32px 80px rgba(0,0,0,0.85), 0 0 0 1px rgba(0,20,137,0.12)",
         }}
       >
         {/* Status bar */}
@@ -94,18 +94,18 @@ export default function NETSPulseApp() {
                     className="w-12 h-12 rounded-full flex items-center justify-center -mt-6 shadow-lg"
                     style={{
                       background: isActive
-                        ? "linear-gradient(135deg, #7C3AED, #10B981)"
+                        ? "linear-gradient(135deg, #EA0029, #001489)"
                         : "rgba(255,255,255,0.08)",
-                      border: "2px solid rgba(14,14,16,0.9)",
-                      boxShadow: isActive ? "0 4px 20px rgba(124,58,237,0.5)" : "none",
+                      border: "2px solid rgba(10,21,37,0.9)",
+                      boxShadow: isActive ? "0 4px 20px rgba(0,20,137,0.5)" : "none",
                     }}
                   >
                     <Icon size={20} style={{ color: "#fff" }} />
                   </div>
                 ) : (
-                  <Icon size={22} style={{ color: isActive ? "#7C3AED" : "#555" }} />
+                  <Icon size={22} style={{ color: isActive ? "#EA0029" : "#555" }} />
                 )}
-                <span className="text-[10px] font-semibold" style={{ color: isActive ? "#7C3AED" : "#444" }}>
+                <span className="text-[10px] font-semibold" style={{ color: isActive ? "#EA0029" : "#444" }}>
                   {label}
                 </span>
               </button>

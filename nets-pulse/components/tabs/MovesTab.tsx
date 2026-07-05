@@ -10,14 +10,19 @@ const CATEGORIES = ["All", "Food", "Shopping", "Transport", "Music", "Coffee"];
 export default function MovesTab() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [showCapsule, setShowCapsule] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const total = SPENDING_BREAKDOWN.reduce((s, c) => s + c.amount, 0);
-  const filtered = activeCategory === "All"
-    ? ALL_TRANSACTIONS
-    : ALL_TRANSACTIONS.filter((tx) =>
-        tx.sub.toLowerCase().includes(activeCategory.toLowerCase()) ||
-        tx.name.toLowerCase().includes(activeCategory.toLowerCase())
-      );
+  const filtered = ALL_TRANSACTIONS.filter((tx) => {
+    const matchCat = activeCategory === "All" ||
+      tx.sub.toLowerCase().includes(activeCategory.toLowerCase()) ||
+      tx.name.toLowerCase().includes(activeCategory.toLowerCase());
+    const matchSearch = searchQuery === "" ||
+      tx.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      tx.sub.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchCat && matchSearch;
+  });
 
   // Donut segments
   const radius = 44;
@@ -47,7 +52,11 @@ export default function MovesTab() {
             <h1 className="text-white font-black text-2xl">Your Moves</h1>
           </div>
           <div className="flex gap-2">
-            <button className="w-9 h-9 glass rounded-full border border-white/10 flex items-center justify-center">
+            <button
+              onClick={() => { setSearchOpen((o) => !o); setSearchQuery(""); }}
+              className="w-9 h-9 glass rounded-full border border-white/10 flex items-center justify-center transition-all"
+              style={{ background: searchOpen ? "#EA0029" : undefined }}
+            >
               <Search size={16} className="text-white" />
             </button>
             <button className="w-9 h-9 glass rounded-full border border-white/10 flex items-center justify-center">
@@ -56,23 +65,44 @@ export default function MovesTab() {
           </div>
         </div>
 
+        {/* Search Bar */}
+        {searchOpen && (
+          <div
+            className="flex items-center gap-2 rounded-2xl px-4 py-2.5 animate-slide-down"
+            style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.10)" }}
+          >
+            <Search size={14} className="text-gray-400 flex-shrink-0" />
+            <input
+              autoFocus
+              type="text"
+              placeholder="Search transactions..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="flex-1 bg-transparent text-white text-sm outline-none placeholder-gray-600"
+            />
+            {searchQuery && (
+              <button onClick={() => setSearchQuery("")} className="text-gray-500 text-xs font-bold">✕</button>
+            )}
+          </div>
+        )}
+
         {/* Time Capsule Banner */}
         <button
           onClick={() => setShowCapsule(true)}
           className="w-full rounded-2xl p-4 text-left active:scale-95 transition-transform relative overflow-hidden"
           style={{
-            background: "linear-gradient(135deg, rgba(124,58,237,0.2) 0%, rgba(16,185,129,0.1) 100%)",
-            border: "1px solid rgba(124,58,237,0.3)",
+            background: "linear-gradient(135deg, rgba(234,0,41,0.15) 0%, rgba(16,185,129,0.08) 100%)",
+            border: "1px solid rgba(234,0,41,0.25)",
           }}
         >
           <div className="flex items-center gap-3">
             <div className="text-3xl">🗺️</div>
             <div className="flex-1">
-              <p className="text-[#A78BFA] text-xs font-bold uppercase tracking-widest mb-0.5">Time Capsule</p>
+              <p className="text-[#F78DA7] text-xs font-bold uppercase tracking-widest mb-0.5">Time Capsule</p>
               <p className="text-white font-bold text-sm">Bangkok Graduation Trip 2026</p>
               <p className="text-gray-400 text-xs">22–26 Jun · $312.50 SGD</p>
             </div>
-            <ChevronRight size={16} className="text-[#7C3AED]" />
+            <ChevronRight size={16} className="text-[#EA0029]" />
           </div>
         </button>
 
@@ -125,7 +155,7 @@ export default function MovesTab() {
               onClick={() => setActiveCategory(cat)}
               className="flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all active:scale-90"
               style={{
-                background: activeCategory === cat ? "#7C3AED" : "rgba(255,255,255,0.07)",
+                background: activeCategory === cat ? "#EA0029" : "rgba(255,255,255,0.07)",
                 color: activeCategory === cat ? "#fff" : "#999",
                 border: activeCategory === cat ? "none" : "1px solid rgba(255,255,255,0.08)",
               }}
@@ -160,6 +190,14 @@ export default function MovesTab() {
             </div>
           ))}
         </div>
+        {/* Empty state */}
+        {Object.keys(grouped).length === 0 && (
+          <div className="flex flex-col items-center gap-2 py-8 text-center">
+            <p className="text-3xl">🔍</p>
+            <p className="text-white font-bold text-sm">No transactions found</p>
+            <p className="text-gray-500 text-xs">Try a different search or category</p>
+          </div>
+        )}
       </div>
     </>
   );

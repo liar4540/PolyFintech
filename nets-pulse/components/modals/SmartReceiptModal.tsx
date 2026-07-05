@@ -14,9 +14,9 @@ export default function SmartReceiptModal({ merchantName, onClose }: SmartReceip
         <div
           className="relative rounded-3xl overflow-hidden p-6 text-center"
           style={{
-            background: "linear-gradient(135deg, #0f0035 0%, #1a0055 40%, #0a1a00 100%)",
-            border: "1px solid rgba(124,58,237,0.4)",
-            boxShadow: "0 0 40px rgba(124,58,237,0.3), 0 0 80px rgba(16,185,129,0.15)",
+            background: "linear-gradient(135deg, #0f0010 0%, #011835 40%, #001a08 100%)",
+            border: "1px solid rgba(234,0,41,0.4)",
+            boxShadow: "0 0 40px rgba(234,0,41,0.25), 0 0 80px rgba(16,185,129,0.12)",
           }}
         >
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -35,7 +35,7 @@ export default function SmartReceiptModal({ merchantName, onClose }: SmartReceip
 
             <div className="text-5xl mb-3">🎉</div>
             <h2 className="text-white font-black text-xl leading-tight mb-1">Achievement Unlocked!</h2>
-            <p className="text-[#A78BFA] text-sm mb-4">via NETS QR</p>
+            <p className="text-[#F78DA7] text-sm mb-4">via NETS QR</p>
 
             <div className="rounded-2xl p-4 mb-4" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}>
               <p className="text-gray-300 text-xs uppercase tracking-widest mb-1">You just unlocked</p>
@@ -57,7 +57,7 @@ export default function SmartReceiptModal({ merchantName, onClose }: SmartReceip
                 </div>
               ))}
             </div>
-            <div className="text-[#8B5CF6] text-xs font-semibold">#NETSPulse #SGPayAnywhere</div>
+            <div className="text-[#EA0029] text-xs font-semibold">#NETSPulse #SGPayAnywhere</div>
           </div>
         </div>
 
@@ -71,7 +71,7 @@ export default function SmartReceiptModal({ merchantName, onClose }: SmartReceip
           <button
             onClick={() => alert("Shared to your story! Flex max 💪")}
             className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl text-white text-sm font-semibold active:scale-95 transition-transform"
-            style={{ background: "linear-gradient(135deg, #7C3AED, #10B981)" }}
+            style={{ background: "linear-gradient(135deg, #EA0029, #10B981)" }}
           >
             <Share2 size={16} /> Share
           </button>

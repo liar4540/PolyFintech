@@ -5,6 +5,7 @@ import { Sparkles, ChevronRight, Lock } from "lucide-react";
 import { USER, VOUCHERS } from "@/lib/mockData";
 import TitleEquipModal from "@/components/modals/TitleEquipModal";
 import WrappedModal from "@/components/modals/WrappedModal";
+import VoucherClaimModal from "@/components/modals/VoucherClaimModal";
 
 export default function ProfileTab() {
   const [equippedTitle, setEquippedTitle] = useState(USER.equippedTitle);
@@ -12,6 +13,7 @@ export default function ProfileTab() {
   const [showTitleModal, setShowTitleModal] = useState(false);
   const [showWrapped, setShowWrapped] = useState(false);
   const [checkedIn, setCheckedIn] = useState(false);
+  const [activeVoucher, setActiveVoucher] = useState<{ merchant: string; discount: string } | null>(null);
 
   const handleCheckIn = () => {
     if (checkedIn) return;
@@ -29,24 +31,31 @@ export default function ProfileTab() {
         />
       )}
       {showWrapped && <WrappedModal onClose={() => setShowWrapped(false)} />}
+      {activeVoucher && (
+        <VoucherClaimModal
+          merchant={activeVoucher.merchant}
+          discount={activeVoucher.discount}
+          onClose={() => setActiveVoucher(null)}
+        />
+      )}
 
       <div className="flex flex-col gap-4 pb-6">
         {/* Profile Card */}
         <div
           className="rounded-3xl p-5 relative overflow-hidden"
           style={{
-            background: "linear-gradient(135deg, #1a0840 0%, #0f1520 100%)",
-            border: "1px solid rgba(124,58,237,0.3)",
-            boxShadow: "0 0 40px rgba(124,58,237,0.15)",
+            background: "linear-gradient(135deg, #1a0510 0%, #011835 100%)",
+            border: "1px solid rgba(234,0,41,0.3)",
+            boxShadow: "0 0 40px rgba(234,0,41,0.12)",
           }}
         >
-          <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full" style={{ background: "radial-gradient(circle, rgba(124,58,237,0.25) 0%, transparent 70%)" }} />
+          <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full" style={{ background: "radial-gradient(circle, rgba(234,0,41,0.20) 0%, transparent 70%)" }} />
           <div className="flex items-center gap-4">
             <div
               className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-black text-white flex-shrink-0 animate-glow-pulse"
               style={{
-                background: "linear-gradient(135deg, #7C3AED, #5B21B6)",
-                border: "2px solid rgba(167,139,250,0.5)",
+                background: "linear-gradient(135deg, #EA0029, #B8001F)",
+                border: "2px solid rgba(247,141,167,0.5)",
               }}
             >
               {USER.avatar}
@@ -56,20 +65,20 @@ export default function ProfileTab() {
               <div
                 className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mt-1.5"
                 style={{
-                  background: "linear-gradient(135deg, rgba(124,58,237,0.3), rgba(16,185,129,0.2))",
-                  border: "1px solid rgba(167,139,250,0.5)",
-                  boxShadow: "0 0 10px rgba(124,58,237,0.3)",
+                  background: "linear-gradient(135deg, rgba(234,0,41,0.25), rgba(16,185,129,0.15))",
+                  border: "1px solid rgba(247,141,167,0.4)",
+                  boxShadow: "0 0 10px rgba(234,0,41,0.25)",
                 }}
               >
                 <span className="text-[10px]">⚡</span>
-                <span className="text-[#A78BFA] font-black text-xs tracking-wider">{equippedTitle}</span>
+                <span className="text-[#F78DA7] font-black text-xs tracking-wider">{equippedTitle}</span>
               </div>
             </div>
           </div>
           <button
             onClick={() => setShowTitleModal(true)}
-            className="mt-4 w-full py-2 rounded-xl text-xs font-bold text-[#A78BFA] border border-[#7C3AED]/30 active:scale-95 transition-transform flex items-center justify-center gap-1"
-            style={{ background: "rgba(124,58,237,0.1)" }}
+            className="mt-4 w-full py-2 rounded-xl text-xs font-bold text-[#F78DA7] border border-[#EA0029]/30 active:scale-95 transition-transform flex items-center justify-center gap-1"
+            style={{ background: "rgba(234,0,41,0.1)" }}
           >
             Change Title <ChevronRight size={12} />
           </button>
@@ -99,21 +108,21 @@ export default function ProfileTab() {
         <button
           onClick={() => setShowWrapped(true)}
           className="w-full py-5 rounded-3xl relative overflow-hidden active:scale-95 transition-transform gradient-border"
-          style={{ background: "linear-gradient(135deg, #1a0840 0%, #0f1520 100%)" }}
+          style={{ background: "linear-gradient(135deg, #1a0510 0%, #011835 100%)" }}
         >
-          <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(124,58,237,0.15), rgba(16,185,129,0.08))" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(234,0,41,0.12), rgba(16,185,129,0.08))" }} />
           <div className="relative flex items-center justify-between px-5">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: "rgba(124,58,237,0.2)" }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: "rgba(234,0,41,0.15)" }}>
                 🎵
               </div>
               <div className="text-left">
-                <p className="text-[#A78BFA] text-xs font-semibold uppercase tracking-widest">2026 Recap</p>
+                <p className="text-[#F78DA7] text-xs font-semibold uppercase tracking-widest">2026 Recap</p>
                 <p className="text-white font-black text-sm">Review Your Payment Replay</p>
                 <p className="text-gray-400 text-xs">Wrapped-style · Tap to relive</p>
               </div>
             </div>
-            <Sparkles size={20} className="text-[#7C3AED]" />
+            <Sparkles size={20} className="text-[#EA0029]" />
           </div>
         </button>
 
@@ -122,26 +131,28 @@ export default function ProfileTab() {
           <p className="text-white font-bold text-sm mb-3">Your Rewards</p>
           <div className="grid grid-cols-2 gap-3">
             {VOUCHERS.map((v) => (
-              <div
+              <button
                 key={v.id}
-                className="rounded-2xl p-3 relative overflow-hidden"
+                onClick={() => v.unlocked && setActiveVoucher({ merchant: v.merchant, discount: v.discount })}
+                className="rounded-2xl p-3 relative overflow-hidden text-left transition-all active:scale-95"
                 style={{
                   background: v.unlocked ? "rgba(16,185,129,0.1)" : "rgba(255,255,255,0.03)",
                   border: v.unlocked ? "1px solid rgba(16,185,129,0.3)" : "1px solid rgba(255,255,255,0.06)",
                   opacity: v.unlocked ? 1 : 0.6,
+                  cursor: v.unlocked ? "pointer" : "default",
                 }}
               >
                 <p className="text-white font-bold text-xs mb-0.5">{v.merchant}</p>
                 <p className="font-black text-sm" style={{ color: v.unlocked ? "#10B981" : "#555" }}>{v.discount}</p>
                 {v.unlocked ? (
-                  <div className="mt-2 text-[10px] font-bold text-[#10B981]">✅ Ready to use</div>
+                  <div className="mt-2 text-[10px] font-bold text-[#10B981]">✅ Tap to claim</div>
                 ) : (
                   <div className="mt-2 flex items-center gap-1 text-[10px] text-gray-500">
                     <Lock size={9} />
                     Unlocks Day {v.daysNeeded}
                   </div>
                 )}
-              </div>
+              </button>
             ))}
           </div>
         </div>

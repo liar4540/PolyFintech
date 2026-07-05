@@ -11,17 +11,17 @@ interface WrappedModalProps {
 const slides = [
   {
     id: 0,
-    bg: "from-[#0E0010] via-[#2D1060] to-[#0E0010]",
-    accent: "#7C3AED",
+    bg: "from-[#0E0005] via-[#011835] to-[#0E0005]",
+    accent: "#EA0029",
     content: (stats: typeof WRAPPED_STATS) => (
       <div className="flex flex-col items-center justify-center h-full text-center gap-6 px-6">
         <div className="text-6xl animate-bounce">🎵</div>
         <div>
-          <p className="text-[#8B5CF6] text-sm font-semibold tracking-widest uppercase mb-2">NETS Pulse</p>
+          <p className="text-[#F78DA7] text-sm font-semibold tracking-widest uppercase mb-2">NETS Pulse</p>
           <h1 className="text-4xl font-black text-white leading-tight">
             Your {stats.year}<br />in Payments
           </h1>
-          <p className="text-[#A78BFA] mt-3 text-lg">Steady lah 🔥</p>
+          <p className="text-[#F78DA7] mt-3 text-lg">Steady lah 🔥</p>
         </div>
         <p className="text-gray-400 text-sm">{stats.totalTransactions} transactions this year</p>
       </div>
@@ -29,17 +29,17 @@ const slides = [
   },
   {
     id: 1,
-    bg: "from-[#0a0a14] via-[#1a0a2e] to-[#0a0a14]",
-    accent: "#7C3AED",
+    bg: "from-[#0a0a0e] via-[#011835] to-[#0a0a0e]",
+    accent: "#EA0029",
     content: (stats: typeof WRAPPED_STATS) => (
       <div className="flex flex-col items-center justify-center h-full text-center gap-6 px-6">
         <div className="text-7xl">🧋</div>
         <div>
-          <p className="text-[#8B5CF6] text-sm font-semibold tracking-widest uppercase mb-2">Your #1 Spot</p>
+          <p className="text-[#F78DA7] text-sm font-semibold tracking-widest uppercase mb-2">Your #1 Spot</p>
           <h2 className="text-5xl font-black text-white">{stats.topMerchant}</h2>
-          <p className="text-[#A78BFA] mt-2 text-xl">{stats.topMerchantVisits} visits</p>
+          <p className="text-[#F78DA7] mt-2 text-xl">{stats.topMerchantVisits} visits</p>
         </div>
-        <div className="glass rounded-2xl px-6 py-3 border border-[#7C3AED]/30">
+        <div className="glass rounded-2xl px-6 py-3 border border-[#EA0029]/30">
           <p className="text-gray-300 text-sm">You&apos;re literally a regular. They probably know your order liao. ☕</p>
         </div>
       </div>
@@ -110,7 +110,7 @@ const slides = [
           </div>
         </div>
         <button
-          className="flex items-center gap-2 bg-gradient-to-r from-[#7C3AED] to-[#10B981] text-white font-bold px-8 py-3 rounded-full shadow-lg shadow-violet-500/30 active:scale-95 transition-transform"
+          className="flex items-center gap-2 bg-gradient-to-r from-[#EA0029] to-[#10B981] text-white font-bold px-8 py-3 rounded-full shadow-lg shadow-red-500/30 active:scale-95 transition-transform"
           onClick={() => alert("Screenshot shared! (Demo mode) 📸")}
         >
           <Share2 size={16} />
@@ -174,7 +174,7 @@ export default function WrappedModal({ onClose }: WrappedModalProps) {
         ) : (
           <button
             onClick={onClose}
-            className="flex items-center gap-2 px-6 py-2 rounded-full text-white text-sm font-semibold bg-gradient-to-r from-violet-600 to-emerald-500"
+            className="flex items-center gap-2 px-6 py-2 rounded-full text-white text-sm font-semibold bg-gradient-to-r from-red-600 to-emerald-500"
           >
             <Sparkles size={14} /> Done
           </button>

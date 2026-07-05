@@ -14,7 +14,7 @@ export default function TimeCapsuleModal({ onClose }: TimeCapsuleModalProps) {
     <div className="absolute inset-0 z-50 bg-[#0a0a10] animate-slide-up overflow-y-auto no-scrollbar" style={{ borderRadius: 40 }}>
       <div
         className="relative px-5 pt-14 pb-8"
-        style={{ background: "linear-gradient(180deg, #1a0a2e 0%, #0a0a10 100%)" }}
+        style={{ background: "linear-gradient(180deg, #011835 0%, #060A10 100%)" }}
       >
         <button onClick={onClose} className="absolute top-12 right-5 p-2 glass rounded-full border border-white/10">
           <X size={18} className="text-white" />
@@ -22,7 +22,7 @@ export default function TimeCapsuleModal({ onClose }: TimeCapsuleModalProps) {
 
         <div className="text-4xl mb-3">{tc.emoji}</div>
         <h1 className="text-white font-black text-2xl leading-tight mb-1">{tc.title}</h1>
-        <p className="text-[#A78BFA] text-sm">{tc.date}</p>
+        <p className="text-[#F78DA7] text-sm">{tc.date}</p>
 
         <div className="flex gap-2 mt-4 flex-wrap">
           {[
@@ -57,14 +57,14 @@ export default function TimeCapsuleModal({ onClose }: TimeCapsuleModalProps) {
             { x: "40%", y: "70%", label: "After You" },
           ].map((pin) => (
             <div key={pin.label} className="absolute flex flex-col items-center" style={{ left: pin.x, top: pin.y }}>
-              <div className="w-5 h-5 rounded-full bg-[#7C3AED] flex items-center justify-center shadow-lg shadow-violet-500/50">
+              <div className="w-5 h-5 rounded-full bg-[#EA0029] flex items-center justify-center shadow-lg shadow-red-500/50">
                 <MapPin size={10} className="text-white" />
               </div>
-              <span className="text-[8px] text-[#A78BFA] mt-0.5 font-semibold whitespace-nowrap">{pin.label}</span>
+              <span className="text-[8px] text-[#F78DA7] mt-0.5 font-semibold whitespace-nowrap">{pin.label}</span>
             </div>
           ))}
           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <polyline points="25,40 55,60 70,30 40,70" fill="none" stroke="rgba(124,58,237,0.5)" strokeWidth="0.5" strokeDasharray="2,1" />
+            <polyline points="25,40 55,60 70,30 40,70" fill="none" stroke="rgba(234,0,41,0.4)" strokeWidth="0.5" strokeDasharray="2,1" />
           </svg>
           <div className="absolute bottom-2 left-3 text-[10px] text-[#10B981] font-semibold flex items-center gap-1">
             <TrendingUp size={10} />
@@ -78,7 +78,7 @@ export default function TimeCapsuleModal({ onClose }: TimeCapsuleModalProps) {
         <div className="flex flex-col gap-2">
           {tc.transactions.map((tx, i) => (
             <div key={i} className="flex items-center gap-3 glass rounded-2xl p-3 border border-white/5">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: "rgba(124,58,237,0.15)" }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: "rgba(234,0,41,0.12)" }}>
                 {tx.icon}
               </div>
               <div className="flex-1">
@@ -102,7 +102,7 @@ export default function TimeCapsuleModal({ onClose }: TimeCapsuleModalProps) {
         <button
           onClick={onClose}
           className="w-full mt-8 py-4 rounded-2xl text-white font-bold text-sm"
-          style={{ background: "linear-gradient(135deg, #7C3AED, #10B981)" }}
+          style={{ background: "linear-gradient(135deg, #EA0029, #10B981)" }}
         >
           Close Capsule
         </button>
